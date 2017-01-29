@@ -1,0 +1,7 @@
+<template>
+  <div class="blog-post">
+    <h1 class="blog-post-title">${post.title}</h1>
+    <p class="blog-post-meta">${post.posted} by <a href="/bloggers/${post.postedBy}">${post.postedBy}</a> <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template></p>
+    <div innerhtml="${md.renderInline(post.body)}"></div>       
+  </div>
+</template>

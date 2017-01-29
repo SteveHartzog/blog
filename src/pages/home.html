@@ -1,0 +1,10 @@
+<template>
+  <h1>Current Posts</h1>
+  <div repeat.for="post of posts">
+    <div class="blog-post">
+      <h1 class="blog-post-title"><a href="/post/${post.url}">${post.title}</></h1>
+      <p class="blog-post-meta">${post.posted} by <a href="/bloggers/${post.postedBy}">${post.postedBy}</a> <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template></p>
+      <p class="lead blog-description">${post.description}</p>
+    </div>
+  </div>
+</template>

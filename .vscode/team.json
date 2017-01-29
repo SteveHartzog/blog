@@ -1,0 +1,23 @@
+{
+  "explorer.filters": {
+    "default": {
+      // Config files
+      ".vscode": true,
+      ".gitignore": true,
+      "custom_typings": true
+    },
+    "code": {
+      "node_modules": true,
+      "favicon.ico": true,
+      ".editorconfig": true,
+      "tsconfig.*": true,
+      "webpack.*": true,
+      "wallaby.js": true,
+      "README.*": true,
+      "test": true
+    },
+    "admin": {
+      ".editorconfig": true
+    }
+  }
+}

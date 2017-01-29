@@ -1,0 +1,22 @@
+<template bindable="router"> 
+  <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4 navbar-fixed-top">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#blogNavbar" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">${router.title}</a>
+    <!--<i class="fa fa-home"></i>-->
+    <!--<img src="img/logo.png" alt="startup.logo" height="26">-->
+    <div class="collapse navbar-collapse justify-content-end" id="blogNavbar">
+      <ul class="navbar-nav">
+        <li repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}">
+          <a class="nav-link" href.bind="row.href">${row.title}</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="loader" if.bind="router.isNavigating">
+          <i class="fa fa-spinner fa-spin fa-2x"></i>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>
