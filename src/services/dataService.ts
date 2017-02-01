@@ -7,7 +7,7 @@ const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(
 
 @inject('firebaseRoot', HttpClient)
 export class DataService {
-  posts: BlogPost[];
+  posts: {}[];
   categories: string[];
 
   constructor (private firebaseRoot, private http: HttpClient) {
@@ -32,7 +32,7 @@ export class DataService {
   
   async loadPosts(refresh:boolean = false) {
     if (this.posts === undefined || refresh === true) {
-      this.posts = await this.getData('posts');
+      this.posts = _.orderBy(await this.getData('posts'), ['posted'], ['desc']);
     }
     return this.posts;
   }
@@ -49,7 +49,12 @@ export class DataService {
       this.posts = await this.getData('posts');
     }
     return _.filter(this.posts, (post) => {
-      return post.categories.includes(category);
+      for(let cat of post['categories']) {
+        if (cat.toLowerCase() === category.toLowerCase()) {
+          return true;
+        }
+      }
+      return false;
     });
   }
 

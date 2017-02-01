@@ -27,10 +27,10 @@ const ENV: 'development' | 'production' | 'test' = process.env.NODE_ENV && proce
 
 // basic configuration:
 const title = 'Aurelia Blog+Firebase+Bootstrap4+Sass Skeleton';
-const baseUrl = '/dist';
+const baseUrl = '/';
 const rootDir = path.resolve();
 const srcDir = path.resolve('src');
-const outDir = path.resolve('dist');
+const outDir = path.resolve('docs');
 
 const coreBundles = {
   bootstrap: [
