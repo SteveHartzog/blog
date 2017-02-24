@@ -7,3 +7,4 @@ debug.log
 /coverage
 yarn.lock
 yarn-error.log
+test-data
