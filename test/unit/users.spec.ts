@@ -1,41 +1,38 @@
-import './setup';
-import {HttpClient} from 'aurelia-fetch-client';
+// import {HttpClient} from 'aurelia-fetch-client';
 // import {Users} from '../../src/users';
 
-class HttpStub extends HttpClient {
-  url;
-  itemStub;
+// class HttpStub extends HttpClient {
+//   url: string;
+//   itemStub: any;
   
-  fetch(url): any {
-    var response = this.itemStub;
-    this.url = url;
-    return new Promise((resolve) => {
-      resolve({ json: () => response });
-    });
-  }
+//   fetch(url: string): any {
+//     var response = this.itemStub;
+//     this.url = url;
+//     return new Promise((resolve) => {
+//       resolve({ json: () => response });
+//     });
+//   }
 
-  configure(config) {
-    return this;
-  }
-}
+//   configure(config) {
+//     return this;
+//   }
+// }
 
-xdescribe('the Users module', () => {
-  it('sets fetch response to users', (done) => {
-    var itemStubs = [1];
-    var itemFake = [2];
+// describe('the Users module', () => {
+//   it('sets fetch response to users', async () => {
+//     var itemStubs = [1];
+//     var itemFake = [2];
 
-    var getHttp = () => {
-      var http = new HttpStub();
-      http.itemStub = itemStubs;
-      return http;
-    };
+//     var getHttp = () => {
+//       var http = new HttpStub();
+//       http.itemStub = itemStubs;
+//       return http;
+//     };
 
-    // var sut = new Users(getHttp);
+//     var sut = new Users(getHttp);
 
-    // sut.activate().then(() => {
-    //   expect(sut.users).toBe(itemStubs);
-    //   expect(sut.users).not.toBe(itemFake);
-    //   done();
-    // });
-  });
-});
+//     await sut.activate()
+//     expect(sut.users).toBe(itemStubs);
+//     expect(sut.users).not.toBe(itemFake);
+//   });
+// });

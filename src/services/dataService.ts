@@ -1,5 +1,5 @@
 import { inject } from 'aurelia-framework';
-import * as _ from 'lodash';
+import * as _ from 'lodash/lodash.min';
 import { HttpClient } from 'aurelia-fetch-client';
 
 // polyfill fetch client conditionally

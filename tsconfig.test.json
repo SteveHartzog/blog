@@ -8,14 +8,15 @@
     "allowJs": true,
     "lib": [
       "es2017", "dom"
+    ],
+    "types": [
+      "node", "selenium-webdriver", "webpack", "jest"
     ]
   },
   "exclude": [
     "node_modules",
     "docs",
-    "dist",
     "static",
-    "webpack.config.ts",
-    "node_modules/@types/jasmine"
+    "webpack.config.ts"
   ]
 }

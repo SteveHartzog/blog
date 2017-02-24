@@ -1,121 +1,461 @@
 /// <reference path="./node_modules/@types/node/index.d.ts" />
-/**
- * To learn more about how to use Easy Webpack
- * Take a look at the README here: https://github.com/easy-webpack/core
- **/
-import { generateConfig, get, stripMetadata, EasyWebpackConfig } from '@easy-webpack/core';
-import * as path from 'path';
 
-import * as envProd from '@easy-webpack/config-env-production';
-import * as envDev from '@easy-webpack/config-env-development';
-import * as aurelia from '@easy-webpack/config-aurelia';
-import * as typescript from '@easy-webpack/config-typescript';
-import * as html from '@easy-webpack/config-html';
-import * as css from '@easy-webpack/config-css';
-import * as sass from '@easy-webpack/config-sass';
-import * as fontAndImages from '@easy-webpack/config-fonts-and-images';
-import * as globalBluebird from '@easy-webpack/config-global-bluebird';
-import * as globalJquery from '@easy-webpack/config-global-jquery';
-import * as json from '@easy-webpack/config-json';
-import * as generateIndexHtml from '@easy-webpack/config-generate-index-html';
-import * as commonChunksOptimize from '@easy-webpack/config-common-chunks-simple';
-import * as copyFiles from '@easy-webpack/config-copy-files';
-import * as uglify from '@easy-webpack/config-uglify';
-import * as generateCoverage from '@easy-webpack/config-test-coverage-istanbul';
+import { merge, WebpackConfigWithDescription as CFG, WebpackConfig, description } from '@easy-webpack/core';
+import * as path from 'path';
+import * as webpack from 'webpack';
+import { RewriteModuleSubdirectoryPlugin, RootMostResolvePlugin, MappedModuleIdsPlugin, ConventionInvalidatePlugin, CommentLoaderOptions, ConventionOptions, HtmlRequireOptions, ListBasedRequireOptions, AddLoadersMethod } from 'webpack-dependency-suite';
+import { addLoadersMethod as aureliaAddLoadersCallback } from 'webpack-dependency-suite/example/aurelia';
+import { AureliaTemplateLintLoaderOptions } from 'aurelia-template-lint-webpack-loader/typings';
+import { Config as TemplateLintConfig } from 'aurelia-template-lint';
+import * as sass from 'sass-loader'; // @easy-webpack/config-sass';
+const { TsConfigPathsPlugin, CheckerPlugin } = require('awesome-typescript-loader');
 
 const ENV: 'development' | 'production' | 'test' = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = 'development');
-
-// basic configuration:
-const title = 'Aurelia Blog+Firebase+Bootstrap4+Sass Skeleton';
+const title = 'Aurelia Navigation Skeleton';
 const baseUrl = '/';
-const rootDir = path.resolve();
-const srcDir = path.resolve('src');
-const outDir = path.resolve('docs');
+const rootDir = __dirname;
+const appDir = path.resolve(__dirname, 'src');
+const outDir = path.resolve(__dirname, 'dist');
+const nodeModules = path.resolve(__dirname, 'node_modules');
+const webpackPort = parseInt(process.env.WEBPACK_PORT) || 9000;
+const webpackHost = process.env.WEBPACK_HOST || 'localhost';
+const isHMR = process.argv.join('').indexOf('hot') > -1 || !!process.env.WEBPACK_HMR
+const isLive = process.argv.join('').indexOf('webpack-dev-server') > -1 || !!process.env.WEBPACK_LIVE
+// const aureliaModules = /node_modules\/aurelia-/;
+// TODO: changeme when not using linked modules:
+const aureliaModules = /\/dist\/(?:native-modules|es2017|es2015|commonjs)\//;
 
-const coreBundles = {
-  bootstrap: [
-    'aurelia-bootstrapper-webpack',
-    'aurelia-polyfills',
-    'aurelia-pal',
-    'aurelia-pal-browser',
-    'bluebird'
+const base: WebpackConfig = {
+  resolve: {
+    extensions: ['.js'],
+    modules: [
+      appDir,
+      'node_modules'
+    ],
+  },
+  entry: {
+    app: './src/main'
+  },
+  output: {
+    path: outDir,
+    publicPath: baseUrl
+  },
+  node: {
+    process: false,
+    setImmediate: false
+  } as any
+};
+
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const development: CFG = {
+  // '📄': { enabled: ENV !== 'production' },
+  // devtool: '#cheap-module-eval-source-map',
+  plugins: [
+    new webpack.SourceMapDevToolPlugin({})
   ],
-  // these will be included in the 'aurelia' bundle (except for the above bootstrap packages)
-  aurelia: [
-    'aurelia-bootstrapper-webpack',
-    'aurelia-binding',
-    'aurelia-dependency-injection',
-    'aurelia-event-aggregator',
-    'aurelia-framework',
-    'aurelia-history',
-    'aurelia-history-browser',
-    'aurelia-loader',
-    'aurelia-loader-webpack',
-    'aurelia-logging',
-    'aurelia-logging-console',
-    'aurelia-metadata',
-    'aurelia-pal',
-    'aurelia-pal-browser',
-    'aurelia-path',
-    'aurelia-polyfills',
-    'aurelia-route-recognizer',
-    'aurelia-router',
-    'aurelia-task-queue',
-    'aurelia-templating',
-    'aurelia-templating-binding',
-    'aurelia-templating-router',
-    'aurelia-templating-resources'
+  output: {
+    filename: '[name].bundle.js',
+    sourceMapFilename: '[name].bundle.map',
+    chunkFilename: '[id].chunk.js'
+  },
+  devServer: {
+    port: webpackPort,
+    host: webpackHost,
+    historyApiFallback: true,
+    contentBase: baseUrl,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000
+    },
+  }
+}
+
+const WebpackMd5Hash = require('webpack-md5-hash');
+const production: CFG = {
+  '📄': { enabled: ENV === 'production' },
+  devtool: '#source-map',
+  output: {
+    filename: '[name].[chunkhash].bundle.js',
+    sourceMapFilename: '[name].[chunkhash].bundle.map',
+    chunkFilename: '[id].[chunkhash].chunk.js'
+  },
+  plugins: [
+    new WebpackMd5Hash(),
+    new (webpack as any).LoaderOptionsPlugin({
+      test: /\.html$/i,
+      minimize: true,
+      removeAttributeQuotes: false,
+      caseSensitive: true
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: { screw_ie8: true, /*except: [], keep_fnames: true*/ },
+      compress: { screw_ie8: true, warnings: false },
+    })
+  ]
+}
+
+const typescript: CFG = {
+  resolve: {
+    extensions: ['.ts']
+  },
+  module: {
+    rules: [{
+      test: /\.ts$/i,
+      loader: 'awesome-typescript-loader',
+      exclude: [nodeModules],
+      options: { configFileName: 'tsconfig.build.json' }
+    }]
+  },
+  plugins: [
+    new TsConfigPathsPlugin({tsconfig: 'tsconfig.build.json'}),
+    new CheckerPlugin()
+  ]
+}
+
+const variables: CFG = {
+  plugins: [
+    // literally replaces all mentions of a given variable in your code with the given value
+    new DefinePlugin({
+      ENV: JSON.stringify(ENV),
+      HMR: isHMR,
+      'process.env': {
+        NODE_ENV: JSON.stringify(ENV),
+        HMR: isHMR,
+        WEBPACK_PORT: JSON.stringify(webpackPort),
+        WEBPACK_HOST: JSON.stringify(webpackHost),
+      }
+    })
   ]
 }
 
 /**
- * Main Webpack Configuration
+ * Plugin: ExtractTextPlugin
+ * It moves every import "style.css" in entry chunks into a single concatenated css output file. 
+ * So your styles are no longer inlined into the javascript, but separate in a css bundle file (styles.css). 
+ * If your total stylesheet volume is big, it will be faster because the stylesheet bundle is loaded in parallel to the javascript bundle.
  */
-let config = generateConfig(
-  {
-    entry: {
-      'app': ['./src/main' /* this is filled by the aurelia-webpack-plugin */],
-      'aurelia-bootstrap': coreBundles.bootstrap,
-      'aurelia': coreBundles.aurelia.filter(pkg => coreBundles.bootstrap.indexOf(pkg) === -1)
+
+// TODO: TEMPORAIRLY OFF //
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextInstance = new ExtractTextPlugin({
+//   name: ENV === 'production' ? '[name].[chunkhash].css' : '[name].css',
+//   allChunks: false
+// });
+
+// const css: CFG = {
+//   module: {
+//     rules: [
+//       {
+//         // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
+//         test: /\.css$/i,
+//         use: ['style-loader'],
+//         issuer: {
+//           // only when the issuer is a .js/.ts file, so the loaders are not applied inside templates
+//           test: /\.[tj]s$/i,
+//         },
+//         // loader: ExtractTextInstance.extract({ fallbackLoader: 'style-loader', loader: ['css-loader'] }),
+//         // parser: {
+//         //   requireInclude: false, // disable require.include
+//         // }
+//       },
+//       {
+//         // CSS anywhere should use the css-loader
+//         test: /\.css$/i,
+//         use: ['css-loader'],
+//       },
+//     ]
+//   },
+//   // plugins: [ExtractTextInstance]
+// }
+
+const scss: CFG = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: "style-loader" }, // creates style nodes from JS strings
+          { loader: "css-loader" }, // translates CSS into CommonJS
+          { loader: "sass-loader" } // compiles Sass to CSS
+        ]
+      }
+    ]
+  }
+}
+
+const fontsAndImages: CFG = {
+  module: {
+    rules: [
+      // embed small images and fonts as Data Urls and larger ones as files
+      { test: /\.(png|gif|jpg)$/, loader: 'url-loader', options: { limit: 8192 } },
+      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
+      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff' } },
+      // load these fonts normally, as files:
+      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
+    ]
+  }
+}
+
+const globals: CFG = {
+  module: {
+    rules: [
+      // expose jQuery as a global
+      { test: require.resolve('jquery'), loader: 'expose-loader?$!expose-loader?jQuery' }
+    ]
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      '$': 'jquery',
+      'jQuery': 'jquery',
+      'window.jQuery': 'jquery' // this doesn't expose jQuery property for window, but replaces calls to it in every module
+    })
+  ]
+}
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const generateIndexHtml: CFG = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'index.html',
+      chunksSortMode: 'dependency',
+      minify: ENV === 'production' ? {
+        removeComments: true,
+        collapseWhitespace: true
+      } : undefined,
+      metadata: {
+        // available in index.html //
+        title, ENV, isHMR, isLive, baseUrl
+
+      }
+    })
+  ]
+}
+
+const commonChunks: CFG = {
+  // '📄': { enabled: ENV === 'production' },  
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor']
+    })
+  ]
+}
+
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const copyFiles: CFG = {
+//   // '📄': { enabled: ENV === 'production' },  
+//   plugins: [new CopyWebpackPlugin([
+//     { from: 'static/favicon.ico', to: 'favicon.ico' }
+//   ])]
+// }
+
+const generateCoverage: CFG = {
+  // '📄': { enabled: ENV === 'test' },
+  module: {
+    rules: [{
+      test: /\.(js|ts)$/,
+      loader: 'sourcemap-istanbul-instrumenter-loader',
+      options: { esModules: true },
+      enforce: 'post',
+    }]
+  }
+}
+
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const dashboard: CFG = {
+  // '📄': { enabled: isLive },
+  plugins: [
+    new DashboardPlugin()
+  ]
+}
+
+
+const templateLintConfig = new TemplateLintConfig();
+templateLintConfig.debug = true;
+// enable type checking:
+templateLintConfig.useRuleAureliaBindingAccess = true;
+templateLintConfig.reflectionOpts.sourceFileGlob = 'src/**/*.ts';
+
+const aureliaTemplateLint: CFG = {
+  module: {
+    rules: [{
+      test: /\.html$/i,
+      include: [appDir],
+      enforce: 'pre',
+      use: [{
+        loader: 'aurelia-template-lint-webpack-loader',
+        options: {
+          // you can pass an configuration class
+          // config reference https://github.com/MeirionHughes/aurelia-template-lint#config
+          configuration: templateLintConfig as any,
+
+          // aurelia errors are displayed by default as warnings
+          // set emitErrors to true to display them as errors
+          emitErrors: false,
+
+          // aurelia does not interrupt the compilation by default
+          // if you want any file with aurelia errors to fail
+          // set failOnHint to true
+          failOnHint: false
+        } as AureliaTemplateLintLoaderOptions
+      }]
+    }]
+  },
+  plugins: [
+    // "touch", or invalidate modules of Views related to ViewModels
+    new ConventionInvalidatePlugin((changedPaths, watchedFiles) => {
+      const pathsToInvalidate = []
+      changedPaths
+        .filter(filePath => filePath.match(/\.[tj]s$/))
+        .forEach(filePath => {
+        const pathWithoutExtension = filePath.replace(/\.[^/.]+$/, '')
+        const relatedTemplate = `${pathWithoutExtension}.html`
+        if (watchedFiles.indexOf(relatedTemplate) >= 0)
+        pathsToInvalidate.push(relatedTemplate)
+      })
+      return pathsToInvalidate
+    }),
+  ]
+}
+
+const addLoadersCallback: AddLoadersMethod = async (list, loaderInstance) => {
+  return await aureliaAddLoadersCallback(rootDir, list, loaderInstance)
+}
+
+const aureliaApplication: CFG = {
+  '📄': {
+    name: 'Aurelia',
+    dependencies: ['webpack-dependency-suite']
+  },
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        include: [appDir, aureliaModules],
+        exclude: [path.join(rootDir, 'index.html')],
+        use: [{
+          loader: 'webpack-dependency-suite/loaders/html-require-loader',
+          options: {
+            addLoadersCallback
+          } as HtmlRequireOptions
+        }]
+      },
+      {
+        test: /\.[tj]s$/i,
+        include: [appDir, aureliaModules],
+        use: [
+          {
+            loader: 'webpack-dependency-suite/loaders/convention-loader',
+            options: {
+              addLoadersCallback,
+              convention: 'extension-swap'
+            } as ConventionOptions
+          },
+        ]
+      },
+      {
+        test: /\.[tj]s$/i,
+        include: [appDir],
+        use: [{
+          loader: 'webpack-dependency-suite/loaders/comment-loader',
+          options: {
+            addLoadersCallback
+          } as CommentLoaderOptions
+        }]
+      },
+      {
+        test: /\.[tj]s$/i,
+        include: [nodeModules, aureliaModules],
+        use: [{
+          loader: 'webpack-dependency-suite/loaders/list-based-require-loader',
+          options: {
+            addLoadersCallback,
+            packagePropertyPath: 'aurelia.build.resources',
+            enableGlobbing: true,
+            rootDir,
+            fallbackToMainContext: true
+          } as ListBasedRequireOptions
+        }]
+      }
+    ]
+  },
+  resolve: {
+    alias: {
+      // 'aurelia-loader-webpack': path.join(srcDir, 'aurelia-loader-webpack.ts')
     },
-    output: {
-      path: outDir,
-    },
+    plugins: [
+      new RewriteModuleSubdirectoryPlugin((moduleName, remainingRequest, request) => {
+        if (moduleName.startsWith('aurelia-'))
+          return `${moduleName}/dist/native-modules/${remainingRequest || moduleName}`
+      }),
+      new RewriteModuleSubdirectoryPlugin((moduleName, remainingRequest, request) => {
+        if (moduleName.startsWith('aurelia-'))
+          return `${moduleName}/dist/commonjs/${remainingRequest || moduleName}`
+      }),
+      // removes duplicate submodules if the required SemVer is satisfied
+      // preferring local ones (closest to rootDir)
+      // useful especially when using linked modules
+      new RootMostResolvePlugin(rootDir, true)
+    ],
   },
 
-  /**
-   * Don't be afraid, you can put bits of standard Webpack configuration here
-   * (or at the end, after the last parameter, so it won't get overwritten by the presets)
-   * Because that's all easy-webpack configs are - snippets of premade, maintained configuration parts!
-   * 
-   * For Webpack docs, see: https://webpack.js.org/configuration/
-   */
+  plugins: [
+    new MappedModuleIdsPlugin({
+      appDir,
+      prefixLoaders: [
+        {loader: 'bundle-loader', prefix: 'async'}, 
+        {loader: 'expose-loader', prefix: 'expose'},
+        {loader: 'css-loader', prefix: false},
+        {loader: 'style-loader', prefix: 'style'},
+        {loader: 'html-webpack-plugin/lib/loader', prefix: 'html-webpack'},
+      ],
+      logWhenRawRequestDiffers: false,
+      dotSlashWhenRelativeToAppDir: false,
+      beforeLoadersTransform: (moduleId) => {
+        if (!moduleId.startsWith('aurelia-') && !moduleId.startsWith('../../')) return moduleId
+        return moduleId
+          .replace('/dist/native-modules', '')
+          .replace('/dist/commonjs', '')
+      },
+      afterExtensionTrimmingTransform: (moduleId) => {
+        // the following useful only in case of aurelia development environment | start:
+        if (moduleId.startsWith('../../')) {
+          moduleId = `aurelia-${moduleId.slice(6)}`
+        }
+        // :end
+        if (!moduleId.startsWith('aurelia-')) return moduleId
+        const split = moduleId.split('/')
+        if (split.length === 2 && split[0] === split[1]) {
+          // aurelia uses custom main path
+          return split[0]
+        }
+        return moduleId
+      }
+    }),
+  ]
+}
 
-  ENV === 'test' || ENV === 'development' ? 
-    envDev(ENV !== 'test' ? {} : {devtool: 'inline-source-map'}) :
-    envProd({ /* devtool: '...' */ }),
+const config = merge(
+  base,
+  ENV === 'production' ? production : development,
+  scss,
+  // ...(
+  //   ENV === 'development' ? [aureliaTemplateLint] : []
+  // ),
+  aureliaApplication,
+  typescript,
+  variables,
+  fontsAndImages,
+  globals,
+  generateIndexHtml,
+  ...(
+    ENV === 'production' ? [commonChunks] : [] // copyFiles
+  ),
+  ...(
+    ENV === 'test' ? [generateCoverage] : []
+  ),
+  ...(
+    isLive ? [dashboard] : []
+  )
+)
 
-  json(),
-  aurelia({root: rootDir, src: srcDir, title: title, baseUrl: baseUrl}),
-  typescript(ENV !== 'test' ? {} : { options: { doTypeCheck: false, sourceMap: false, inlineSourceMap: true, inlineSources: true } }),
-  html(),
-  css({ filename: 'vendor.css', allChunks: true, sourceMap: false }),
-  sass({ filename: 'site.css', allChunks: true, sourceMap: true }),
-  fontAndImages(),
-  globalBluebird(),
-  globalJquery(),
-  generateIndexHtml({minify: ENV === 'production'}),
-
-  ...(ENV === 'production' || ENV === 'development' ? [
-      commonChunksOptimize({appChunkName: 'app', firstChunk: 'aurelia-bootstrap'}),
-      copyFiles({patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }]})
-    ] : [
-    /* ENV === 'test' */
-    generateCoverage({ options: { esModules: true } })
-  ]),
-
-  ENV === 'production' ?
-    uglify({debug: false, mangle: { except: ['cb', '__webpack_require__'] }}) : {}
-);
-
-module.exports = stripMetadata(config);
+module.exports = config;

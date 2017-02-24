@@ -6,7 +6,7 @@ export class App {
 
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = 'Blog';
-    config.options.pushState = true;
+    // config.options.pushState = true;
     config.map([
       { route: [''], name: 'home', moduleId: './pages/home', nav: true, title: 'Home' },
       { route: ['blog'], name: 'blog', moduleId: './pages/blog', nav: false, title: 'Blog' },

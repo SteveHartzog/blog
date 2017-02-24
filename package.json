@@ -1,43 +1,8 @@
 {
   "name": "blog",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A starter kit for a gh-pages Aurelia Blog.",
-  "main": "dist/main.js",
-  "scripts": {
-    "pretest": "del-cli \"test/coverage\"",
-    "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ts-node ./node_modules/karma/bin/karma start test/karma.conf.js",
-    "test:debug": "npm test -- --single-run=false --debug",
-    "webdriver:update": "cross-env ./node_modules/.bin/webdriver-manager update",
-    "webdriver:start": "cross-env ./node_modules/.bin/webdriver-manager start",
-    "pree2e": "npm run webdriver:update -- --standalone",
-    "e2e": "concurrently --success first --kill-others \"npm run e2e:start-when-ready\" \"cross-env WEBPACK_PORT=19876 npm start\"",
-    "e2e:start-when-ready": "wait-on --timeout 120000 http-get://localhost:19876/index.html && npm run e2e:start",
-    "e2e:start": "cross-env ./node_modules/.bin/protractor test/protractor.conf.js",
-    "e2e:live": "npm run e2e:start -- --elementExplorer",
-    "clean": "npm cache clean && del-cli node_modules \"test/coverage\" dist",
-    "clean:dist": "del-cli dist",
-    "preclean:install": "npm run clean",
-    "clean:install": "npm install",
-    "preclean:start": "npm run clean",
-    "clean:start": "npm start",
-    "watch": "npm run watch:dev",
-    "watch:dev": "npm run build:dev -- --watch",
-    "watch:dev:hmr": "npm run watch:dev -- --hot",
-    "watch:test": "npm run test -- --auto-watch --no-single-run",
-    "watch:prod": "npm run build:prod -- --watch",
-    "build": "npm run build:dev",
-    "prebuild:dev": "npm run clean:dist",
-    "build:dev": "cross-env NODE_ENV=development npm run webpack -- --progress --profile",
-    "prebuild:prod": "npm run clean:dist",
-    "build:prod": "cross-env NODE_ENV=production npm run webpack -- --progress --profile",
-    "start": "npm run server:dev",
-    "server": "npm run server:dev",
-    "server:dev": "cross-env NODE_ENV=development npm run webpack-dev-server -- --inline --progress --profile --watch",
-    "server:dev:hmr": "npm run server:dev -- --hot",
-    "server:prod": "http-server dist --cors",
-    "webpack": "cross-env TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ./node_modules/.bin/webpack",
-    "webpack-dev-server": "cross-env TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ./node_modules/.bin/webpack-dev-server"
-  },
+  "main": "docs/app.bundle.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/SteveHartzog/blog.git"
@@ -48,90 +13,150 @@
     "blog",
     "webpack"
   ],
-  "license": "CC0-1.0",
   "author": "Steve Hartzog <shartzog@gmail.com> (http://stevehartzog.github.io/)",
+  "license": "CC0-1.0",
   "contributors": [],
   "bugs": {
     "url": "https://github.com/SteveHartzog/blog/issues"
   },
   "homepage": "https://github.com/SteveHartzog/blog#readme",
-  "aurelia": {
-    "build": {
-      "resources": []
+  "scripts": {
+    "prebuild": "del-cli dist",
+    "build": "bnr webpack:build:production",
+    "prebuild:dev": "del-cli dist",
+    "build:dev": "bnr webpack:build:development",
+    "start": "bnr webpack:dashboard",
+    "webpack": "bnr webpack",
+    "pretest": "del-cli coverage",
+    "test": "bnr test",
+    "posttest": "mv __coverage__/remapped coverage && del-cli __coverage__",
+    "serve": "http-server dist --cors",
+    "pree2e": "bnr webdriver:update",
+    "e2e": "concurrently --success first --kill-others \"bnr e2e:start-when-ready\" \"bnr webpack:e2e\"",
+    "e2e:start": "bnr e2e:start",
+    "e2e:debug": "bnr e2e:debug",
+    "bnr": "bnr"
+  },
+  "betterScripts": {
+    "test": "node --harmony_async_await jest --no-cache",
+    "webdriver:update": "webdriver-manager update --standalone",
+    "e2e:start-when-ready": "wait-on --timeout 120000 http-get://localhost:19876/index.html && bnr e2e:start",
+    "e2e:start": "protractor test/protractor.conf.js",
+    "e2e:debug": "protractor test/protractor.conf.js --elementExplorer",
+    "webpack": "webpack-dev-server --hot --inline --open",
+    "webpack:dashboard": "webpack-dashboard -- webpack-dev-server --hot --inline --open",
+    "webpack:e2e": {
+      "command": "bnr webpack",
+      "env": {
+        "WEBPACK_PORT": 19876
+      }
+    },
+    "webpack:build:development": {
+      "command": "webpack --progress",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "webpack:build:production": {
+      "command": "webpack --progress",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "webpack:debug": "node --harmony_async_await --inspect --debug-brk webpack --watch"
+  },
+  "jest": {
+    "modulePaths": [
+      "<rootDir>/src",
+      "<rootDir>/node_modules"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "resetModules": false,
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
+    "testRegex": "\\.spec\\.(ts|js)x?$",
+    "setupFiles": [
+      "<rootDir>/test/jest-pretest.ts"
+    ],
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}"
+    ],
+    "moduleNameMapper": {
+      "aurelia-(.*)": "<rootDir>/node_modules/$1"
+    },
+    "coverageDirectory": "<rootDir>/__coverage__",
+    "coverageReporters": [
+      "text",
+      "json"
+    ],
+    "globals": {
+      "__TS_CONFIG__": "tsconfig.test.json"
     }
   },
-  "dependencies": {
-    "@easy-webpack/config-json": "^3.1.0",
+  "devDependencies": {
+    "@easy-webpack/core": "^2.0.1",
+    "@types/jest": "^18.1.1",
+    "@types/jsdom": "^2.0.30",
     "@types/markdown-it": "0.0.2",
-    "aurelia-bootstrapper-webpack": "^1.1.0",
-    "aurelia-event-aggregator": "^1.0.0",
-    "aurelia-fetch-client": "^1.0.1",
-    "aurelia-framework": "^1.0.7",
+    "@types/node": "^7.0.5",
+    "@types/webpack": "^2.2.7",
+    "@types/whatwg-fetch": "^0.0.33",
+    "aurelia-loader-nodejs": "^1.0.0",
+    "aurelia-protractor-plugin": "^1.0.1",
+    "aurelia-template-lint-webpack-loader": "^1.0.2",
+    "aurelia-testing": "^1.0.0-beta.2.0.1",
+    "better-npm-run": "0.0.14",
+    "bundle-loader": "^0.5.4",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.26.1",
+    "del-cli": "^0.2.1",
+    "enhanced-resolve": "^3.1.0",
+    "expose-loader": "^0.7.3",
+    "file-loader": "^0.10.0",
+    "html-webpack-plugin": "^2.28.0",
+    "http-server": "^0.9.0",
+    "jest": "^19.0.2",
+    "protractor": "^5.1.1",
+    "style-loader": "^0.13.1",
+    "ts-jest": "^19.0.0",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.2.1",
+    "url-loader": "^0.5.7",
+    "wait-on": "^2.0.1",
+    "webpack": "^2.2.1",
+    "webpack-dashboard": "^0.3.0",
+    "webpack-dependency-suite": "^1.5.0",
+    "webpack-dev-server": "^2.4.1",
+    "webpack-md5-hash": "^0.0.5"
+  },
+  "dependencies": {
+    "aurelia-bootstrapper": "^2.0.1",
+    "aurelia-fetch-client": "^1.1.1",
+    "aurelia-framework": "^1.0.8",
     "aurelia-history-browser": "^1.0.0",
-    "aurelia-loader-webpack": "^1.0.3",
+    "aurelia-loader-webpack": "^2.0.0",
     "aurelia-logging-console": "^1.0.0",
-    "aurelia-pal-browser": "^1.0.0",
-    "aurelia-polyfills": "^1.1.1",
-    "aurelia-route-recognizer": "^1.1.0",
-    "aurelia-router": "^1.0.7",
-    "aurelia-templating-binding": "^1.1.0",
+    "aurelia-pal-browser": "^1.1.0",
+    "aurelia-polyfills": "^1.2.0",
+    "aurelia-router": "^1.2.0",
+    "aurelia-templating-binding": "^1.2.0",
     "aurelia-templating-resources": "^1.2.0",
-    "aurelia-templating-router": "^1.0.0",
-    "bluebird": "^3.4.6",
-    "bootstrap": "^3.3.7",
+    "aurelia-templating-router": "^1.0.1",
+    "bootstrap": "^4.0.0-alpha.6",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^2.2.1",
-    "markdown-it": "^8.2.2",
+    "markdown-it": "^8.3.0",
     "markdown-it-emoji": "^1.3.0",
-    "showdown": "^1.5.5",
-    "twemoji": "^2.2.0"
-  },
-  "devDependencies": {
-    "@easy-webpack/config-aurelia": "^2.2.2",
-    "@easy-webpack/config-common-chunks-simple": "^2.0.3",
-    "@easy-webpack/config-copy-files": "^1.1.2",
-    "@easy-webpack/config-css": "^4.0.0",
-    "@easy-webpack/config-env-development": "^2.1.5",
-    "@easy-webpack/config-env-production": "^3.0.0",
-    "@easy-webpack/config-external-source-maps": "^3.1.0",
-    "@easy-webpack/config-fonts-and-images": "^2.1.0",
-    "@easy-webpack/config-generate-index-html": "^2.1.1",
-    "@easy-webpack/config-global-bluebird": "^2.1.0",
-    "@easy-webpack/config-global-jquery": "^2.1.0",
-    "@easy-webpack/config-html": "^3.1.0",
-    "@easy-webpack/config-json": "^3.1.0",
-    "@easy-webpack/config-sass": "^4.0.0",
-    "@easy-webpack/config-source-map-support": "^1.0.2",
-    "@easy-webpack/config-test-coverage-istanbul": "^3.2.0",
-    "@easy-webpack/config-typescript": "^5.0.0",
-    "@easy-webpack/config-uglify": "^2.2.3",
-    "@easy-webpack/core": "^2.0.0",
-    "@types/bluebird": "^3.0.35",
-    "@types/jasmine": "^2.5.38",
-    "@types/node": "^6.0.48",
-    "@types/webpack": "^2.0.0",
-    "@types/whatwg-fetch": "^0.0.32",
-    "aurelia-protractor-plugin": "^1.0.1",
-    "bootstrap": "^4.0.0-alpha.6",
-    "concurrently": "^3.1.0",
-    "cross-env": "^3.1.3",
-    "del-cli": "^0.2.0",
-    "http-server": "^0.9.0",
-    "jasmine-core": "^2.5.2",
-    "karma": "^1.3.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-coverage": "^1.1.1",
-    "karma-jasmine": "^1.0.2",
-    "karma-mocha-reporter": "^2.2.0",
-    "karma-remap-istanbul": "^0.2.1",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.8.0",
-    "protractor": "^4.0.11",
-    "ts-node": "^1.7.2",
-    "typescript": "^2.1",
-    "wait-on": "^2.0.1",
-    "wallaby-webpack": "0.0.26",
-    "webpack": "2.1.0-beta.27",
-    "webpack-dev-server": "2.1.0-beta.12"
+    "sass-loader": "^6.0.2",
+    "twemoji": "^2.2.5"
   }
 }
