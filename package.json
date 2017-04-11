@@ -21,49 +21,8 @@
   },
   "homepage": "https://github.com/SteveHartzog/blog#readme",
   "scripts": {
-    "prebuild": "del-cli dist",
-    "build": "bnr webpack:build:production",
-    "prebuild:dev": "del-cli dist",
-    "build:dev": "bnr webpack:build:development",
-    "start": "bnr webpack:dashboard",
-    "webpack": "bnr webpack",
-    "pretest": "del-cli coverage",
-    "test": "bnr test",
-    "posttest": "mv __coverage__/remapped coverage && del-cli __coverage__",
-    "serve": "http-server dist --cors",
-    "pree2e": "bnr webdriver:update",
-    "e2e": "concurrently --success first --kill-others \"bnr e2e:start-when-ready\" \"bnr webpack:e2e\"",
-    "e2e:start": "bnr e2e:start",
-    "e2e:debug": "bnr e2e:debug",
-    "bnr": "bnr"
-  },
-  "betterScripts": {
-    "test": "node --harmony_async_await jest --no-cache",
-    "webdriver:update": "webdriver-manager update --standalone",
-    "e2e:start-when-ready": "wait-on --timeout 120000 http-get://localhost:19876/index.html && bnr e2e:start",
-    "e2e:start": "protractor test/protractor.conf.js",
-    "e2e:debug": "protractor test/protractor.conf.js --elementExplorer",
-    "webpack": "webpack-dev-server --hot --inline --open",
-    "webpack:dashboard": "webpack-dashboard -- webpack-dev-server --hot --inline --open",
-    "webpack:e2e": {
-      "command": "bnr webpack",
-      "env": {
-        "WEBPACK_PORT": 19876
-      }
-    },
-    "webpack:build:development": {
-      "command": "webpack --progress",
-      "env": {
-        "NODE_ENV": "development"
-      }
-    },
-    "webpack:build:production": {
-      "command": "webpack --progress",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "webpack:debug": "node --harmony_async_await --inspect --debug-brk webpack --watch"
+    "start": "nps",
+    "test": "nps test"
   },
   "jest": {
     "modulePaths": [
@@ -73,90 +32,89 @@
     "moduleFileExtensions": [
       "js",
       "json",
-      "ts",
-      "tsx"
+      "ts"
     ],
-    "resetModules": false,
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
-    "testRegex": "\\.spec\\.(ts|js)x?$",
+    "testRegex": "\\.test\\.(ts|js)x?$",
     "setupFiles": [
       "<rootDir>/test/jest-pretest.ts"
     ],
     "testEnvironment": "node",
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,ts}"
-    ],
     "moduleNameMapper": {
       "aurelia-(.*)": "<rootDir>/node_modules/$1"
-    },
-    "coverageDirectory": "<rootDir>/__coverage__",
-    "coverageReporters": [
-      "text",
-      "json"
-    ],
-    "globals": {
-      "__TS_CONFIG__": "tsconfig.test.json"
     }
   },
   "devDependencies": {
-    "@easy-webpack/core": "^2.0.1",
-    "@types/jest": "^18.1.1",
-    "@types/jsdom": "^2.0.30",
+    "@types/jest": "^19.2.2",
+    "@types/lodash": "^4.14.62",
     "@types/markdown-it": "0.0.2",
-    "@types/node": "^7.0.5",
-    "@types/webpack": "^2.2.7",
-    "@types/whatwg-fetch": "^0.0.33",
-    "aurelia-loader-nodejs": "^1.0.0",
+    "@types/node": "^7.0.12",
+    "@types/webpack": "^2.2.14",
+    "aurelia-loader-nodejs": "^1.0.1",
+    "aurelia-pal-nodejs": "1.0.0-beta.1.0.0",
     "aurelia-protractor-plugin": "^1.0.1",
-    "aurelia-template-lint-webpack-loader": "^1.0.2",
-    "aurelia-testing": "^1.0.0-beta.2.0.1",
-    "better-npm-run": "0.0.14",
-    "bundle-loader": "^0.5.4",
+    "aurelia-testing": "^1.0.0-beta.3.0.1",
+    "aurelia-webpack-plugin": "^2.0.0-rc.2",
+    "autoprefixer": "^6.7.7",
+    "awesome-typescript-loader": "^3.1.2",
     "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.26.1",
+    "cross-env": "^4.0.0",
+    "css-loader": "^0.28.0",
     "del-cli": "^0.2.1",
-    "enhanced-resolve": "^3.1.0",
     "expose-loader": "^0.7.3",
-    "file-loader": "^0.10.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.28.0",
     "http-server": "^0.9.0",
+    "istanbul-instrumenter-loader": "^2.0.0",
+    "jasmine-core": "^2.5.2",
     "jest": "^19.0.2",
+    "json-loader": "^0.5.4",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage-istanbul-reporter": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-mocha-reporter": "^2.2.0",
+    "karma-webpack": "^2.0.3",
+    "node-sass": "^4.5.2",
+    "nps": "^5.0.5",
+    "nps-utils": "^1.2.0",
+    "postcss-loader": "^1.3.3",
     "protractor": "^5.1.1",
-    "style-loader": "^0.13.1",
-    "ts-jest": "^19.0.0",
-    "ts-node": "^2.1.0",
-    "typescript": "^2.2.1",
-    "url-loader": "^0.5.7",
-    "wait-on": "^2.0.1",
-    "webpack": "^2.2.1",
-    "webpack-dashboard": "^0.3.0",
-    "webpack-dependency-suite": "^1.5.0",
-    "webpack-dev-server": "^2.4.1",
-    "webpack-md5-hash": "^0.0.5"
+    "style-loader": "^0.16.1",
+    "ts-jest": "^19.0.8",
+    "ts-node": "^3.0.2",
+    "typescript": "^2.2.2",
+    "url-loader": "^0.5.8",
+    "wait-on": "^2.0.2",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "aurelia-bootstrapper": "^2.0.1",
-    "aurelia-fetch-client": "^1.1.1",
-    "aurelia-framework": "^1.0.8",
+    "aurelia-bootstrapper": "^2.1.1",
+    "aurelia-fetch-client": "^1.1.2",
+    "aurelia-framework": "^1.1.2",
     "aurelia-history-browser": "^1.0.0",
-    "aurelia-loader-webpack": "^2.0.0",
+    "aurelia-loader-webpack": "^2.1.0",
     "aurelia-logging-console": "^1.0.0",
-    "aurelia-pal-browser": "^1.1.0",
-    "aurelia-polyfills": "^1.2.0",
-    "aurelia-router": "^1.2.0",
-    "aurelia-templating-binding": "^1.2.0",
-    "aurelia-templating-resources": "^1.2.0",
-    "aurelia-templating-router": "^1.0.1",
+    "aurelia-pal-browser": "^1.2.1",
+    "aurelia-polyfills": "^1.2.1",
+    "aurelia-router": "^1.3.0",
+    "aurelia-templating": "^1.4.1",
+    "aurelia-templating-binding": "^1.3.0",
+    "aurelia-templating-resources": "^1.4.0",
+    "aurelia-templating-router": "^1.1.0",
+    "bluebird": "^3.5.0",
     "bootstrap": "^4.0.0-alpha.6",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.2.1",
     "markdown-it": "^8.3.0",
     "markdown-it-emoji": "^1.3.0",
     "sass-loader": "^6.0.2",
+    "tether": "^1.4.0",
     "twemoji": "^2.2.5"
   }
 }

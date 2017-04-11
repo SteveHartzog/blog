@@ -6,6 +6,8 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "allowJs": true,
+    "sourceRoot": "src",
+    "compileOnSave": false,
     "lib": [
       "es2017", "dom"
     ]
@@ -13,9 +15,6 @@
   "exclude": [
     "node_modules",
     "docs",
-    "dist",
-    "static",
-    "webpack.config.ts",
-    "node_modules/@types/jasmine"
+    "dist"
   ]
 }
