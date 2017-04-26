@@ -1,7 +1,41 @@
 <template>
-  <div class="blog-post">
-    <h1 class="blog-post-title">${post.title}</h1>
-    <p class="blog-post-meta">${post.posted} by <a href="/bloggers/${post.postedBy}">${post.postedBy}</a> <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template></p>
-    <div innerhtml="${md.renderInline(post.body)}"></div>       
-  </div>
+  <div id="titlebar" class="titlebar">
+		<div class="wrapper">
+			<h1 class="right">${post.title}</h1>
+			<h2 class="left" style="display: block;"></h2>
+		</div>
+	</div>
+  <section class="posts wrapper">
+    <article class="post">
+      <header>
+        <h1 id="posttitle">${post.title}</h1>
+        <span class="meta">Posted by <a href="/about">${post.postedBy}</a> on <i class="fa fa-clock-o"></i><time datetime.bind="post.posted">${post.posted}</time>. <!-- <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template> --></span>
+      </header>
+      <section id="postbody" innerhtml="${md.renderInline(post.body)}"></section>
+      <footer>
+        <ul class="share left">
+          <li><a class="smallbutton lightgray" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" href="http://twitter.com/share?text=${post.title}&amp;url=${post.fullUrl}"><i class="fa fa-twitter"></i>Twitter</a></li>
+          <li><a class="smallbutton lightgray" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" href="https://www.facebook.com/sharer/sharer.php?u=${post.fullUrl}"><i class="fa fa-facebook"></i>Facebook</a></li>
+          <li><a class="smallbutton lightgray" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" href="https://plus.google.com/share?url=${post.fullUrl}"><i class="fa fa-google-plus"></i>Google+</a></li>
+        </ul>
+      </footer>
+      <div class="authorProfile">
+        <img class="avatar" alt="${post.postedBy}" src="/images/avatar.jpg">
+        <div class="info">
+          <h4>${post.postedBy}</h4>
+          <a href="https://SteveHartzog.github.io">https://SteveHartzog.github.io</a>
+          <p></p>
+          
+          <ul class="social">
+            <li><a class="twitter" href="https://twitter.com/SteveHartzog" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            <li><a class="github" href="https://github.com/SteveHartzog" target="_blank"><i class="fa fa-github-alt"></i></a></li>
+            <li><a class="googleplus" href="https://plus.google.com/u/0/+SteveHartz" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+            <!--<li><a class="youtube" href="https://vimeo.com/channels/867847" target="_blank"><i class="fa fa-vimeo"></i></a></li>-->
+            <!--<li><a class="stackoverflow" href="http://stackoverflow.com/questions/tagged/aurelia" target="_blank"><i class="fa fa-stack-overflow"></i></a></li>-->
+            <!--<li><a class="rss" href="https://SteveHartzog.github.io/rss.xml" target="_blank"><i class="fa fa-rss"></i></a></li>-->
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
 </template>

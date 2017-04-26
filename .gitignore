@@ -2,7 +2,7 @@ node_modules
 .DS_STORE
 npm-debug.log*
 debug.log
-/build
-/coverage
+/test/*coverage
+dist
 yarn-error.log
 test-data

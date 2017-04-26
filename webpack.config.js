@@ -13,7 +13,7 @@ const when = (condition, config, negativeConfig) =>
 
 // primary config:
 const title = 'Aurelia Navigation Skeleton';
-const outDir = path.resolve(__dirname, 'docs');
+const outDir = path.resolve(__dirname, 'dist');
 const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
@@ -31,21 +31,22 @@ const cssRules = [
 module.exports = ({production, server, extractCss, coverage} = {}) => ({
   resolve: {
     extensions: ['.ts', '.js'],
-    modules: [srcDir, 'node_modules'],
+    modules: [srcDir, 'node_modules']
   },
   entry: {
     app: ['aurelia-bootstrapper'],
-    vendor: ['bluebird', 'jquery', 'bootstrap'],
+    vendor: ['bluebird', 'jquery', 'bootstrap']
   },
   output: {
     path: outDir,
     publicPath: baseUrl,
     filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
     sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-    chunkFilename: production ? '[chunkhash].chunk.js' : '[hash].chunk.js',
+    chunkFilename: production ? '[chunkhash].chunk.js' : '[hash].chunk.js'
   },
   devServer: {
-    contentBase: baseUrl,
+    contentBase: outDir,
+    historyApiFallback: true
   },
   module: {
     rules: [
@@ -58,13 +59,12 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
       },
       // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
       // only when the issuer is a .js/.ts file, so the loaders are not applied inside html templates
-      {
-        test: /\.css$/i,
+      { test: /\.css$/i,
         issuer: [{ not: [{ test: /\.html$/i }] }],
         use: extractCss ? ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: cssRules,
-        }) : ['style-loader', ...cssRules],
+        }) : ['style-loader', ...cssRules]
       },
       // {
       //   test: /\.css$/i,
@@ -82,6 +82,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
       { test: require.resolve('jquery'), loader: 'expose-loader?$!expose-loader?jQuery' },
       // embed small images and fonts as Data Urls and larger ones as files:
       { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
+      // { test: /\.(jpe?g|png|gif|ico)$/, use: 'file-loader?name=./images/[name].[ext]' },
       { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
       { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff' } },
       // load these fonts normally, as files:
@@ -91,6 +92,9 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         include: srcDir, exclude: [/\.{spec,test}\.[jt]s$/i],
         enforce: 'post', options: { esModules: true },
       })
+    ],
+    loaders: [
+      { test: /\images.(png|gif|jpg)$/, loader: 'url' }
     ]
   },
   plugins: [
@@ -122,7 +126,8 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
       name: ['common']
     })),
     ...when(production, new CopyWebpackPlugin([
-      { from: 'src/favicon.ico', to: 'favicon.ico' }
+      { from: 'src/favicon.ico', to: './favicon.ico' },
+      { from: 'src/images', to: './images' }
     ]))
   ],
 })

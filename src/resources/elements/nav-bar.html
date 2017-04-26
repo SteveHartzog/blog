@@ -1,22 +1,24 @@
 <template bindable="router"> 
-  <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4 navbar-fixed-top">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#blogNavbar" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">${router.title}</a>
-    <!--<i class="fa fa-home"></i>-->
-    <!--<img src="img/logo.png" alt="startup.logo" height="26">-->
-    <div class="collapse navbar-collapse justify-content-end" id="blogNavbar">
-      <ul class="navbar-nav">
-        <li repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}">
-          <a class="nav-link" href.bind="row.href">${row.title}</a>
+  <header class="title">
+		<a href="/"><i class="fa fa-bookmark-o fa-lg"></i><span>${router.title}</span></a>
+	</header>
+  <nav class="mainnav${router.currentInstruction.config.name === 'home' ? ' home' : ''}">
+    <div class="navwrap">
+      <ul class="menu">
+        <li repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'nav-current' : ''}" role="presentation">
+          <a href.bind="row.href">${row.title}</a>
         </li>
       </ul>
-      <ul class="navbar-nav">
-        <li class="loader" if.bind="router.isNavigating">
-          <i class="fa fa-spinner fa-spin fa-2x"></i>
-        </li>
-      </ul>
+      <div class="toggle"><a href="#"><i class="fa fa-bars"></i></a></div>
     </div>
-  </nav>
+	</nav>
+  <div show.bind="router.currentInstruction.config.name === 'home'" class="cover post indexfeature featured" id="cover">
+		<div class="background" style="background-image: url('./images/hero.png');">
+      <span class="background-title">Steve Hartzog</span>
+    </div>
+		<header class="wrapper">
+			<p></p>
+		</header>
+		<i class="fa fa-chevron-down movedown"></i>
+  </div>
 </template>

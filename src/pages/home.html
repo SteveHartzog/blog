@@ -1,10 +1,14 @@
 <template>
-  <h1>Current Posts</h1>
-  <div repeat.for="post of posts">
-    <div class="blog-post">
-      <h1 class="blog-post-title"><a href="/post/${post.url}">${post.title}</a></h1>
-      <p class="blog-post-meta">${post.posted} by <a href="/bloggers/${post.postedBy}">${post.postedBy}</a> <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template></p>
-      <p class="lead blog-description">${post.description}</p>
-    </div>
-  </div>
+  <section class="posts postindex wrapper">
+    <article repeat.for="post of posts" class="post ${$first ? 'first' : ''}">
+      <header>
+        <h1><a href="/post/${post.url}">${post.title}</a></h1>
+        <span>
+          Posted by <span class="postauthor"><a href="/about"><img class="smallprofile" alt="${post.postedBy}" src="/images/avatar.jpg">${post.postedBy}</a></span> on <i class="fa fa-clock-o"></i><time datetime.bind="post.posted">${post.posted}</time>.
+          <!--<template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template>-->
+        </span>
+        <p>${post.description}</p>
+      </header>
+    </article>
+  </section>
 </template>
