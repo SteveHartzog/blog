@@ -2,11 +2,11 @@
   <require from="./resources/elements/nav-bar.html"></require>
   <require from="./resources/elements/categories/categories"></require>
   
-  <nav-bar router.bind="router"></nav-bar>
+  <nav-bar router.bind="router" name.bind="bConf.name" cover.bind="bConf.coverImage" quote.bind="bConf.authorQuote"></nav-bar>
   <router-view></router-view>
   <footer class="wrapper">
     <div class="copyright">
-      Copyright © <a href="https://SteveHartzog.github.io">Steve Hartzog</a>. 2017 • All rights reserved.
+      Copyright © <a href="${bConf.url}">${bConf.name}</a>. 2017 • All rights reserved.
     </div>
   </footer>
 </template>

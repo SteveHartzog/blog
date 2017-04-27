@@ -1,9 +1,16 @@
-import { Aurelia } from 'aurelia-framework';
+import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
+import { Config } from './services/config';
 
+@autoinject
 export class App {
   router: Router;
+  public bConf: Config;
+
+  constructor(private blogConfig: Config) {
+    this.bConf = this.blogConfig;
+  }
 
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = 'Blog';

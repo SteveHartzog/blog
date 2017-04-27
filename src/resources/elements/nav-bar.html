@@ -1,4 +1,4 @@
-<template bindable="router"> 
+<template bindable="router, name, cover, quote"> 
   <header class="title">
 		<a href="/"><i class="fa fa-bookmark-o fa-lg"></i><span>${router.title}</span></a>
 	</header>
@@ -13,8 +13,9 @@
     </div>
 	</nav>
   <div show.bind="router.currentInstruction.config.name === 'home'" class="cover post indexfeature featured" id="cover">
-		<div class="background" style="background-image: url('./images/hero.png');">
-      <span class="background-title">Steve Hartzog</span>
+		<div class="background" style="background-image: url('./images/${cover}');">
+      <span class="background-title">${name}</span>
+      <span class="background-quote">${quote}</span>
     </div>
 		<header class="wrapper">
 			<p></p>

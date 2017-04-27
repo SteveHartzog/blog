@@ -1,20 +1,23 @@
 import { inject } from 'aurelia-framework';
 import * as _ from 'lodash/lodash.min';
 import { HttpClient } from 'aurelia-fetch-client';
+import { Config } from './config';
+import * as moment from 'moment';
+
 
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
-@inject('firebaseRoot', HttpClient)
+@inject('firebaseRoot', Config, HttpClient)
 export class DataService {
   posts: {}[];
   categories: string[];
 
-  constructor (private firebaseRoot, private http: HttpClient) {
+  constructor (private firebaseRoot, private blogConfig: Config, private http: HttpClient) {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl(this.firebaseRoot);
+        .withBaseUrl(this.blogConfig.source);
     });
   }
 
@@ -32,7 +35,9 @@ export class DataService {
   
   async loadPosts(refresh:boolean = false) {
     if (this.posts === undefined || refresh === true) {
-      this.posts = _.orderBy(await this.getData('posts'), ['posted'], ['desc']);
+      this.posts = _.sortBy(await this.getData('posts'), (post) => {
+        return moment(post.posted);
+      }).reverse();
     }
     return this.posts;
   }

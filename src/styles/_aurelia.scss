@@ -132,6 +132,15 @@ footer {
       color: white;
       text-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
+
+    .background-quote {
+      position: relative;
+      top: 45%;
+      display: block;
+      font: 400 18px 'Comic Sans MS', Serif;
+      color: #ddd;
+      text-shadow: 0 0 5px rgba(0,0,0,0.8);      
+    }
   }
 
   .movedown {
@@ -320,6 +329,25 @@ a:focus, a:hover {
   border-radius: 20px;
 }
 
+.authorQuote {
+  display: flex;
+  height: 230px;
+
+  img {
+    height: 200px;
+  }
+
+  blockquote {
+    margin: 100px 0 80px 15px;
+    padding-left: 15px;
+    border-left: 3px solid #ccc;
+  }
+}
+section.aboutBody {
+  margin: 0 0 30px;
+  padding-top: 10px;
+}
+
 .authorProfile {
   overflow: hidden; 
   border-top: 1px solid #b3b3b3;
@@ -488,6 +516,8 @@ a:focus, a:hover {
     }
   }
 }
+
+
 
 nav .toggle i {
   color: #b0b0b0;

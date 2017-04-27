@@ -2,8 +2,7 @@
 import 'font-awesome/css/font-awesome.min.css';
 // import '../node_modules/tether/dist/js/tether.min'
 import './styles/site.scss';
-import { Aurelia } from 'aurelia-framework';
-import { PLATFORM } from 'aurelia-pal';
+import { Aurelia, PLATFORM } from 'aurelia-framework';
 import * as Bluebird from 'bluebird';
 
 // remove out if you don't want a Promise polyfill (remove also from webpack.config.js)
@@ -12,7 +11,7 @@ Bluebird.config({ warnings: { wForgottenReturn: false } });
 export async function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
-    .instance('firebaseRoot', 'https://blog-e668a.firebaseio.com/');
+    .feature(PLATFORM.moduleName('resources/index'));
     // .developmentLogging();
 
   // Uncomment the line below to enable animation.

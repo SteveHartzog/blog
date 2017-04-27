@@ -1,6 +1,7 @@
 import * as MarkdownIt from 'markdown-it';
 import * as emoji from 'markdown-it-emoji';
 import * as twemoji from 'twemoji';
+import * as deflist from 'markdown-it-deflist';
 
 export class Markdown {
   constructor() {
@@ -28,7 +29,8 @@ export class Markdown {
       // If result starts with <pre... internal wrapper is skipped.
       highlight: function (/*str, lang*/) { return ''; }
     });
-    md.use(emoji);
+    md.use(deflist)
+      .use(emoji);
     md.renderer.rules['emoji'] = function(token, idx) {
       return twemoji.parse(token[idx].content);
     };

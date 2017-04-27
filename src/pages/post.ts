@@ -1,12 +1,14 @@
 import { inject } from 'aurelia-framework';
 import { DataService } from '../services/dataService';
 import { Markdown } from '../services/markdown';
+import { Config } from '../services/config';
 
-@inject(DataService, Markdown)
+
+@inject(Config, DataService, Markdown)
 export class Post{
   post: BlogPost;
 
-  constructor (private ds, private md) {
+  constructor (private bConf: Config, private ds, private md: Markdown) {
   }
   
   async activate(params): Promise<void> {
