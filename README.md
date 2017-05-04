@@ -70,8 +70,21 @@ The production bundle includes all files that are required for deployment.
 This skeleton provides three frameworks for running tests.
 
 You can choose one or two and remove the other, or even use all of them for different types of tests.
-
-### Jest
+ 
+By default, both Jest and Karma are configured to run the same tests with Jest's matchers (see Jest documentation for more information). 
+ 
+If you wish to only run certain tests under one of the runners, wrap them in an `if`, like this: 
+ 
+```js 
+if (jest) { 
+  // since only jest supports creating snapshot: 
+  it('should render correctly', () => { 
+    expect(document.body.outerHTML).toMatchSnapshot(); 
+  }); 
+} 
+``` 
+ 
+### Jest + Jasmine 2 
 
 Jest is a powerful unit testing runner and framework.
 It runs really fast, however the tests are run under NodeJS, not the browser.

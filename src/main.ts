@@ -1,4 +1,5 @@
-﻿// we want font-awesome to load as soon as possible to show the fa-spinner
+﻿/// <reference types="aurelia-loader-webpack/src/webpack-hot-interface"/> 
+// we want font-awesome to load as soon as possible to show the fa-spinner
 import 'font-awesome/css/font-awesome.min.css';
 // import '../node_modules/tether/dist/js/tether.min'
 import './styles/site.scss';

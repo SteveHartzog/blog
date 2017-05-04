@@ -18,6 +18,9 @@ exports.config = {
     includeStackTrace: false,
     defaultTimeoutInterval: 400000
   },
+
+  SELENIUM_PROMISE_MANAGER: false,
+  
   directConnect: true,
 
   capabilities: {

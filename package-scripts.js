@@ -8,6 +8,7 @@ module.exports = {
       default: 'nps test.jest',
       jest: {
         default: 'jest',
+        accept: 'jest -u',
         watch: 'jest --watch',
       },
       karma: {
@@ -15,8 +16,8 @@ module.exports = {
           rimraf('test/karma-coverage'),
           'karma start test/karma.conf.js'
         ),
-        watch: 'karma start test/karma.conf.js --single-run=false',
-        debug: 'karma start test/karma.conf.js --single-run=false --debug'
+        watch: 'karma start test/karma.conf.js --no-single-run',
+        debug: 'karma start test/karma.conf.js --no-single-run --debug'
       },
       all: concurrent({
         browser: series.nps('test.karma', 'e2e'),
