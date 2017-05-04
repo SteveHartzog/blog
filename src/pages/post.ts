@@ -13,7 +13,7 @@ export class Post{
   
   async activate(params): Promise<void> {
     this.post = await this.ds.getPostByUrl(params.url);
-    this.post['fullUrl'] = window.location.href;
+    this.post['fullUrl'] = encodeURIComponent(window.location.href.replace('/post/', '/#/post/'));
 
     // show titlebar when past the title
     window.addEventListener('scroll', function() {
