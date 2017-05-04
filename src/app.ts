@@ -14,6 +14,7 @@ export class App {
 
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = 'Home';
+    config.addPipelineStep('postcomplete', PostCompleteStep);
     config.options.pushState = true;
     config.map([
       { route: [''], name: 'home', moduleId: PLATFORM.moduleName('./pages/home'), nav: true, title: 'Home' },
@@ -26,5 +27,11 @@ export class App {
     ]);
 
     this.router = router;
+  }
+}
+
+class PostCompleteStep {
+  run(routingContext, next) {
+    window.scrollTo(0, 0);
   }
 }
