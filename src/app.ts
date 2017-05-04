@@ -13,7 +13,7 @@ export class App {
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
-    config.title = 'Blog';
+    config.title = 'Home';
     config.options.pushState = true;
     config.map([
       { route: [''], name: 'home', moduleId: PLATFORM.moduleName('./pages/home'), nav: true, title: 'Home' },
