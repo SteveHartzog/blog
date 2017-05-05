@@ -7,11 +7,11 @@
     "moduleResolution": "node",
     "allowJs": true,
     "sourceRoot": "src",
-    "compileOnSave": false,
     "lib": [
       "es2017", "dom"
     ]
   },
+  "compileOnSave": true,
   "exclude": [
     "node_modules",
     "docs",
