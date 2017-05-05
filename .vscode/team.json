@@ -4,7 +4,8 @@
       // Config files
       ".vscode": true,
       ".gitignore": true,
-      "custom_typings": true
+      "custom_typings": true,
+      "yarn.lock": true
     },
     "code": {
       "node_modules": true,
@@ -17,7 +18,8 @@
       "test": true
     },
     "admin": {
-      ".editorconfig": true
+      ".editorconfig": true,
+      "yarn.lock": true
     }
   }
 }
