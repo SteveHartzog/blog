@@ -1,9 +1,11 @@
 <template>
   <require from="./resources/elements/nav-bar.html"></require>
   <require from="./resources/elements/categories/categories"></require>
+
+  <nav-bar router.bind="router" name.bind="bConf.name" scroll.bind="smoothScrollTo" cover.bind="bConf.coverImage" quote.bind="bConf.authorQuote"></nav-bar>
   
-  <nav-bar router.bind="router" name.bind="bConf.name" cover.bind="bConf.coverImage" quote.bind="bConf.authorQuote"></nav-bar>
-  <router-view></router-view>
+  <router-view id="pageStart"></router-view>
+  
   <footer class="wrapper">
     <div class="copyright">
       Copyright © <a href="${bConf.url}">${bConf.name}</a>. 2017 • All rights reserved.

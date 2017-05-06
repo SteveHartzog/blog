@@ -1,17 +1,37 @@
-// .splash .message {
-//   font-size: 72px;
-//   line-height: 72px;
-//   text-shadow: rgba(0, 0, 0, 0.5) 0 0 15px;
-//   text-transform: uppercase;
-//   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-// }
+.pulsate {
+  opacity: 1.0;
+  bottom: 0%;
+}
 
-// .splash .fa-spinner {
-//   text-align: center;
-//   display: inline-block;
-//   font-size: 72px;
-//   margin-top: 50px;
-// }
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: 0.4;
+    bottom: 5%;
+  }
+  50% {
+    opacity: 1.0;
+    bottom: 7%;
+  }
+  100% {
+    opacity: 0.4;
+    bottom: 5%;
+  }
+}
+
+@keyframes pulsate {
+  0% {
+    opacity: 0.4;
+    bottom: 5%;
+  }
+  50% {
+    opacity: 1.0;
+    bottom: 7%;
+  }
+  100% {
+    opacity: 0.4;
+    bottom: 5%;
+  }
+}
 
 .emoji {
   height: 1.2em;
@@ -123,10 +143,17 @@ footer {
     height: 100%;
     background-size: cover;
     text-align: center;
+
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-transition: -webkit-transform 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     
     .background-title {
       position: relative;
-      top: 45%;
+      top: 45vh;
       display: inline-block;
       font: 800 42px 'Domine', Serif;
       color: white;
@@ -135,7 +162,7 @@ footer {
 
     .background-quote {
       position: relative;
-      top: 45%;
+      top: 45vh;
       display: block;
       font: 400 18px 'Comic Sans MS', Serif;
       color: #ddd;
@@ -151,6 +178,8 @@ footer {
     cursor: pointer;
     -webkit-animation: pulsate 4s ease-out;
     -webkit-animation-iteration-count: infinite;
+    animation: pulsate 4s ease-out;
+    animation-iteration-count: infinite;
     opacity: 0.6;
     color: #eee;
   }

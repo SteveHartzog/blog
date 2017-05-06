@@ -2,10 +2,7 @@
   "name": "blog",
   "version": "0.3.0",
   "description": "A starter kit for a gh-pages Aurelia Blog.",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/SteveHartzog/blog.git"
-  },
+  "repository": "git+ssh://git@github.com/SteveHartzog/blog.git",
   "keywords": [
     "aurelia",
     "gh-pages",
