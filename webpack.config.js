@@ -118,16 +118,16 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         title, server, baseUrl
       },
     }),
+    new CopyWebpackPlugin([
+      { from: 'static/favicon.ico', to: 'favicon.ico' },
+      { from: 'src/images', to: './images' }
+    ]),
     ...when(extractCss, new ExtractTextPlugin({
       filename: production ? '[contenthash].css' : '[id].css',
       allChunks: true,
     })),
     ...when(production, new CommonsChunkPlugin({
       name: ['common']
-    })),
-    ...when(production, new CopyWebpackPlugin([
-      { from: 'src/favicon.ico', to: './favicon.ico' },
-      { from: 'src/images', to: './images' }
-    ]))
+    }))
   ],
 })
