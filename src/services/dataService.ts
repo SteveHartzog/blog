@@ -22,16 +22,16 @@ export class DataService {
     });
   }
 
-    let data = [];
   async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
+    let data;
 
     await firebase.database().ref()
       .child('content')
       .orderByChild('type')
-      .equalTo('post')
+      .equalTo(type)
       .once('value', snapshot => data = snapshotToArray(snapshot));
 
-    return data ? data : [];
+    return data;
   }
 
   async getData(data: string, refresh:boolean = false) {
