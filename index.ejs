@@ -3,6 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title><%- htmlWebpackPlugin.options.metadata.title %></title>
+
+    <% if (htmlWebpackPlugin.options.metadata.description) { %>
+    <meta name="description" value="<%- htmlWebpackPlugin.options.metadata.description %>">
+    <% } %>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
     <link href="https://fonts.googleapis.com/css?family=Domine:700%7COpen+Sans:400,600%7CSource+Code+Pro:500" rel="stylesheet" type="text/css">

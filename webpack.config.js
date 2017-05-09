@@ -6,13 +6,18 @@ const { AureliaPlugin } = require('aurelia-webpack-plugin');
 const { optimize: { CommonsChunkPlugin }, ProvidePlugin } = require('webpack')
 const { TsConfigPathsPlugin, CheckerPlugin } = require('awesome-typescript-loader');
 
+const ApplicationConfig = require('./src/config/application.config.json');
+const SocialConfig = require('./src/config/social.config.json');
+
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || []
 const when = (condition, config, negativeConfig) =>
   condition ? ensureArray(config) : ensureArray(negativeConfig)
 
 // primary config:
-const title = 'Aurelia Navigation Skeleton';
+const title = ApplicationConfig.siteTitle || ApplicationConfig.siteName;
+const description = ApplicationConfig.siteDescription || null;
+
 const outDir = path.resolve(__dirname, 'dist');
 const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
@@ -114,7 +119,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
       } : undefined,
       metadata: {
         // available in index.ejs //
-        title, server, baseUrl
+        title, description, server, baseUrl
       },
     }),
     new CopyWebpackPlugin([
