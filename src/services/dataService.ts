@@ -4,7 +4,6 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { Config } from './config';
 import * as moment from 'moment';
 
-
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
@@ -19,6 +18,18 @@ export class DataService {
         .useStandardConfiguration()
         .withBaseUrl(this.blogConfig.source);
     });
+  }
+
+  async getContent(type = 'post') {
+    let data = [];
+
+    await firebase.database().ref()
+      .child('content')
+      .orderByChild('type')
+      .equalTo('post')
+      .once('value', snapshot => data = snapshotToArray(snapshot));
+
+    return data ? data : [];
   }
 
   async getData(data: string, refresh:boolean = false) {
