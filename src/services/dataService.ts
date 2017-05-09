@@ -46,7 +46,7 @@ export class DataService {
     return items;
   }
   
-  async loadPosts(refresh:boolean = false) {
+  async loadPosts(refresh:boolean = false): Promise<any[]> {
     if (this.posts === undefined || refresh === true) {
       this.posts = _.sortBy(await this.getData('posts'), (post) => {
         return moment(post.posted);
@@ -76,7 +76,7 @@ export class DataService {
     });
   }
 
-  async getPostByUrl(url: string, refresh: boolean = false) {
+  async getPostByUrl(url: string, refresh: boolean = false): Promise<any> {
     if (this.posts === undefined || refresh === true) {
       this.posts = await this.getData('posts');
     }

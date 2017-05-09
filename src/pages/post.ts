@@ -1,14 +1,18 @@
-import { inject } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { DataService } from '../services/dataService';
 import { Markdown } from '../services/markdown';
-import { Config } from '../services/config';
 
+import * as ApplicationConfig from '../config/application.config.json';
 
-@inject(Config, DataService, Markdown)
-export class Post{
+import {SiteConfigInterface} from '../interfaces';
+
+@autoinject
+export class Post {
+  public config: SiteConfigInterface;
+  
   post: BlogPost;
 
-  constructor (private bConf: Config, private ds, private md: Markdown) {
+  constructor (private ds: DataService, private md: Markdown) {
   }
   
   async activate(params): Promise<void> {

@@ -2,15 +2,17 @@ import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
 
-import { Config } from './services/config';
+import * as ApplicationConfig from './config/application.config.json';
+
+import {SiteConfigInterface} from './interfaces';
 
 @autoinject
 export class App {
   router: Router;
-  public bConf: Config;
+  public config: SiteConfigInterface;
 
-  constructor(private blogConfig: Config) {
-    this.bConf = this.blogConfig;
+  constructor() {
+    this.config = ApplicationConfig as SiteConfigInterface | any;
   }
 
   smoothScrollTo(elementId, duration) {

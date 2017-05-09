@@ -1,9 +1,11 @@
 import { autoinject } from 'aurelia-framework';
-import { Config } from '../services/config';
+import * as ApplicationConfig from '../config/application.config.json';
+import * as SocialConfig from '../config/social.config.json';
+
+import {SiteConfigInterface} from '../interfaces';
 
 @autoinject
 export class About{
-  constructor(private bConf: Config) {
-    
-  }
+  private config: SiteConfigInterface | any = ApplicationConfig;
+  private socialConfig = SocialConfig;
 }

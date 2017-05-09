@@ -1,10 +1,11 @@
 {
   "siteTitle": null,
-  "siteBlurb": null,
+  "siteBlurb": "Dark matter developer enjoying the JavaScript renaissance and TypeScript reformation. :)",
   "siteName": "Steve Hartzog",
   "siteDescription": "Dark matter developer enjoying the JavaScript renaissance and TypeScript reformation. :)",
   "avatar": "avatar.jpg",
   "coverImage": "hero.png",
+  "url": "https://SteveHartzog.github.io/",
   "comments": {
     "enabled": true
   }
