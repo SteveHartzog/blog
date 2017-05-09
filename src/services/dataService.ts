@@ -4,6 +4,8 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { Config } from './config';
 import * as moment from 'moment';
 
+import {ContentType, ContentInterface} from '../interfaces';
+
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
@@ -20,8 +22,8 @@ export class DataService {
     });
   }
 
-  async getContent(type = 'post') {
     let data = [];
+  async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
 
     await firebase.database().ref()
       .child('content')
