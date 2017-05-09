@@ -75,7 +75,6 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
       // },
       { test: /\.html$/i, loader: 'html-loader' },
       { test: /\.ts$/i, loader: 'awesome-typescript-loader', exclude: nodeModulesDir },
-      { test: /\.json$/i, loader: 'json-loader' },
       // use Bluebird as the global Promise implementation:
       { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
       // exposes jQuery globally as $ and as jQuery:
