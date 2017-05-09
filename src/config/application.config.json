@@ -1,0 +1,12 @@
+{
+  "siteName": "My Aurelia Firebase Blog",
+  "siteDescription": "My Firebase powered blog using Aurelia.",
+  "comments": {
+    "enabled": true
+  },
+  "owner": {
+    "name": "Steve Hartzog",
+    "quote": "Dark matter developer enjoying the JavaScript renaissance and TypeScript reformation. :)",
+    "url": "https://SteveHartzog.github.io/"
+  }
+}
