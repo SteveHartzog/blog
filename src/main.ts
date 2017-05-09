@@ -5,6 +5,11 @@ import 'font-awesome/css/font-awesome.min.css';
 import './styles/site.scss';
 import { Aurelia, PLATFORM } from 'aurelia-framework';
 import * as Bluebird from 'bluebird';
+import * as firebase from 'firebase';
+
+import * as FirebaseConfig from './config/firebase.config.json';
+
+(<any>window).firebase = firebase.initializeApp(FirebaseConfig);
 
 // remove out if you don't want a Promise polyfill (remove also from webpack.config.js)
 Bluebird.config({ warnings: { wForgottenReturn: false } });
