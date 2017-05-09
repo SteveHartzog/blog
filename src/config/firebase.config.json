@@ -1,3 +1,8 @@
 {
-  "firebaseUrl": "https://blog-e668a.firebaseio.com/"
+  "apiKey": "AIzaSyBMcxjjAdJAkd7hwQbvmIpAV_LsirDpjlI",
+  "authDomain": "blog-e668a.firebaseapp.com",
+  "databaseURL": "https://blog-e668a.firebaseio.com",
+  "projectId": "blog-e668a",
+  "storageBucket": "blog-e668a.appspot.com",
+  "messagingSenderId": "529163607438"
 }
