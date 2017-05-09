@@ -70,3 +70,17 @@ export class DataService {
     return this.posts[_.findIndex(this.posts, { 'url': url })];
   }
 }
+
+export const snapshotToArray = snapshot => {
+  let returnArr = [];
+
+  snapshot.forEach(childSnapshot => {
+    let item = childSnapshot.val();
+    
+    item.id = childSnapshot.key;
+
+    returnArr.push(item);
+  });
+
+  return returnArr;
+};
