@@ -9,14 +9,14 @@ export interface SiteConfigInterface {
 }
 
 export interface ContentInterface {
-  title?: string;
+  title: string;
   category?: string;
   excerpt?: string;
   content?: string;
   author?: string;
   views?: number;
-  type?: ContentType;
-  status?: ContentStatus;
+  type: ContentType;
+  status: ContentStatus;
   created_at?: number;
   updated_at?: number;
 }

@@ -1,5 +1,4 @@
 import {App} from '../../src/app';
-import {Config} from '../../src/services/config';
 
 class RouterStub {
   routes;
@@ -15,12 +14,11 @@ class RouterStub {
 
 describe('the App module', () => {
   let sut: App;
-  let bConf: Config;
   let mockedRouter: any;
 
   beforeEach(() => {
     mockedRouter = new RouterStub();
-    sut = new App(bConf);
+    sut = new App();
     sut.configureRouter(mockedRouter, mockedRouter);
   });
 
