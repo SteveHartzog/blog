@@ -49,8 +49,6 @@ export class App {
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = 'Home';
 
-    config.addPipelineStep('postcomplete', PostCompleteStep);
-
     config.options.pushState = true;
     
     config.map([
