@@ -23,11 +23,15 @@ export class Post {
     window.addEventListener('scroll', function() {
       let titlebar = document.getElementById('titlebar');
       let postBody = document.getElementById('postbody');
-      if (window.scrollY > (postBody['offsetTop'] - 100)) {
-        titlebar.style.display = 'block';
-      } else {
-        titlebar.style.display = 'none';
+      if (postBody) {
+        if (window.scrollY > (postBody['offsetTop'] - 100)) {
+          titlebar.style.display = 'block';
+        } else {
+          titlebar.style.display = 'none';
+        }
       }
     });
+    // Reset scroll height carried over from home
+    window.scrollTo(0, 0);
   }
 }

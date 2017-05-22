@@ -36,6 +36,10 @@ export class App {
       }
       y = factor * delta + offset;
       window.scrollBy(0, y - window.pageYOffset);
+      if (factor >= 1 && elementId === 'pageStart') {
+        document.getElementById('cover').style.display = 'none';
+        window.scrollTo(0, 0);
+      }
     }
 
     timer = setInterval(step, 10);
@@ -64,11 +68,5 @@ export class App {
     ]);
 
     this.router = router;
-  }
-}
-
-class PostCompleteStep {
-  run(routingContext, next) {
-    window.scrollTo(0, 0);
   }
 }
