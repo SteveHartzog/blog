@@ -26,8 +26,9 @@ export interface ContentInterface {
   views?: number;
   type: ContentType;
   status: ContentStatus;
-  created_at?: number;
-  updated_at?: number;
+  url?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface AuthorInterface {
