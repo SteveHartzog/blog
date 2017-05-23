@@ -25,14 +25,24 @@ export class DataService {
     });
   }
 
-  async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
+  async getContent(type: ContentType = 'post', onlyPublished: boolean = true): Promise<ContentInterface[]> {
     let data: ContentInterface[] = [];
 
-    await firebase.database().ref()
-      .child('content')
-      .orderByChild('type')
-      .equalTo(type)
-      .once('value', snapshot => data = snapshotToArray(snapshot));
+    if (onlyPublished) {
+      await firebase.database().ref()
+        .child('content')
+        .orderByChild('isPublished')
+        .equalTo(true)
+        .once('value', snapshot => {
+          data = snapshotToArray(snapshot, 'post');
+        });
+    } else {
+      await firebase.database().ref()
+        .child('content')
+        .orderByChild('type')
+        .equalTo(type)
+        .once('value', snapshot => data = snapshotToArray(snapshot));
+    }
 
     return data;
   }
