@@ -41,3 +41,9 @@ export interface CategoryInterface {
   parentCategory?: string | null;
   isDefault?: boolean;
 }
+
+export interface CommentInterface {
+  userId?: string;
+  contentId?: string;
+  content?: string;
+}
