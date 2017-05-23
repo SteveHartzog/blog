@@ -2,8 +2,8 @@
   "rules": {
     ".read": true,
     ".write": "auth != null",
-    "contnet": {
-      ".indexOn": ["type"]
+    "content": {
+      ".indexOn": ["type", "isPublished"]
     }
   }
 }
