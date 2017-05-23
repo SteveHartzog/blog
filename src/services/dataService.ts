@@ -4,21 +4,25 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { Config } from './config';
 import * as moment from 'moment';
 
-import {ContentType, ContentInterface} from '../interfaces';
+import * as FirebaseConfig from '../config/firebase.config.json';
+import {ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
+import {snapshotToArray} from '../common/functions';
 
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
-@inject('firebaseRoot', Config, HttpClient)
+@inject(HttpClient)
 export class DataService {
+  private config: FirebaseConfigInterface = FirebaseConfig;
+
   posts: {}[];
   categories: string[];
 
-  constructor (private firebaseRoot, private blogConfig: Config, private http: HttpClient) {
+  constructor (private http: HttpClient) {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl(this.blogConfig.source);
+        .withBaseUrl(this.config.databaseURL);
     });
   }
 
@@ -83,17 +87,3 @@ export class DataService {
     return this.posts[_.findIndex(this.posts, { 'url': url })];
   }
 }
-
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-
-  snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    
-    item.id = childSnapshot.key;
-
-    returnArr.push(item);
-  });
-
-  return returnArr;
-};

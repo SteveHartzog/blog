@@ -1,10 +1,45 @@
-import {ContentInterface} from '../interfaces';
+import {ContentInterface, CategoryInterface} from '../common/interfaces';
 
 export class Setup {
   private db: any;
 
   constructor() {
     this.db = firebase.database();
+  }
+
+  populateCategories() {
+    return new Promise((resolve, reject) => {
+      firebase.auth().onAuthStateChanged(user => {
+        if (!user) {
+          reject();
+          return;
+        }
+
+        const categories: CategoryInterface[] = [
+          {
+            name: 'Uncategorized',
+            description: null,
+            parentCategory: null,
+            isDefault: true
+          },
+          {
+            name: 'Aurelia',
+            description: 'Blog posts about the Aurelia Javascript framework',
+            parentCategory: null,
+            isDefault: false
+          }
+        ];
+
+        categories.forEach(category => {
+          let newCategoryKey = this.db.ref().child('categories').push().key;
+          let updates = {};
+
+          updates['/categories/' + newCategoryKey] = category;
+
+          this.db.ref().update(updates);
+        });
+      });
+    });
   }
 
   populatePosts() {

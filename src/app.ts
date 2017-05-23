@@ -4,7 +4,7 @@ import { PLATFORM } from 'aurelia-pal';
 
 import * as ApplicationConfig from './config/application.config.json';
 
-import {SiteConfigInterface} from './interfaces';
+import {SiteConfigInterface} from './common/interfaces';
 
 @autoinject
 export class App {
@@ -12,7 +12,7 @@ export class App {
   public config: SiteConfigInterface;
 
   constructor() {
-    this.config = ApplicationConfig as SiteConfigInterface | any;
+    this.config = ApplicationConfig as SiteConfigInterface;
   }
 
   smoothScrollTo(elementId, duration) {

@@ -4,7 +4,7 @@ import { Markdown } from '../services/markdown';
 
 import * as ApplicationConfig from '../config/application.config.json';
 
-import {SiteConfigInterface} from '../interfaces';
+import {SiteConfigInterface} from '../common/interfaces';
 
 @autoinject
 export class Post {

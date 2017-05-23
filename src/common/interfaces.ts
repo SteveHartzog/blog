@@ -8,6 +8,15 @@ export interface SiteConfigInterface {
   siteDescription?: string;
 }
 
+export interface FirebaseConfigInterface {
+  apiKey?: string;
+  authDomain?: string;
+  databaseURL?: string;
+  projectId?: string;
+  storageBucket?: string;
+  messagingSenderId?: string;
+}
+
 export interface ContentInterface {
   title: string;
   category?: string;
@@ -24,4 +33,11 @@ export interface ContentInterface {
 export interface AuthorInterface {
   avatar?: string;
   name: string;
+}
+
+export interface CategoryInterface {
+  name: string;
+  description?: string | null;
+  parentCategory?: string | null;
+  isDefault?: boolean;
 }
