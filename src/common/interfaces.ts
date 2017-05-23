@@ -23,12 +23,11 @@ export interface ContentInterface {
   excerpt?: string;
   content?: string;
   author?: string;
-  views?: number;
   type: ContentType;
-  status: ContentStatus;
-  url?: string;
-  created_at?: string;
-  updated_at?: string;
+  isPublished?: boolean;
+  slug?: string;
+  created_at?: number;
+  updated_at?: number;
 }
 
 export interface AuthorInterface {
