@@ -1,7 +1,6 @@
 import { inject } from 'aurelia-framework';
 import * as _ from 'lodash/lodash.min';
 import { HttpClient } from 'aurelia-fetch-client';
-import { Config } from './config';
 import * as moment from 'moment';
 
 import * as FirebaseConfig from '../config/firebase.config.json';
