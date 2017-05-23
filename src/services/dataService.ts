@@ -4,7 +4,7 @@ import { HttpClient } from 'aurelia-fetch-client';
 import * as moment from 'moment';
 
 import * as FirebaseConfig from '../config/firebase.config.json';
-import {ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
+import {CategoryInterface, ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
 import {snapshotToArray} from '../common/functions';
 
 // polyfill fetch client conditionally
@@ -26,7 +26,7 @@ export class DataService {
   }
 
   async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
-    let data;
+    let data = [];
 
     await firebase.database().ref()
       .child('content')
@@ -35,6 +35,18 @@ export class DataService {
       .once('value', snapshot => data = snapshotToArray(snapshot));
 
     return data;
+  }
+
+  async getDefaultCategory(): Promise<CategoryInterface> {
+    let defaultCategory = null;
+
+    await firebase.database().ref()
+      .child('categories')
+      .orderByChild('isDefault')
+      .equalTo(true)
+      .once('value', snapshot => defaultCategory = snapshot.val());
+
+      return defaultCategory;
   }
 
   async getData(data: string, refresh:boolean = false) {
