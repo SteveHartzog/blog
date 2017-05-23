@@ -70,6 +70,18 @@ export class DataService {
       return defaultCategory;
   }
 
+  async getComments(contentId: string) {
+    let comments = [];
+
+    await firebase.database().ref()
+      .child('comments')
+      .orderByChild('contentId')
+      .equalTo(contentId)
+      .once('value', snapshot => comments = snapshotToArray(snapshot));
+
+    return comments;
+  }
+
   async getData(data: string, refresh:boolean = false) {
     let items;
     try {
