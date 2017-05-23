@@ -1,24 +1,52 @@
 import { inject } from 'aurelia-framework';
 import * as _ from 'lodash/lodash.min';
 import { HttpClient } from 'aurelia-fetch-client';
-import { Config } from './config';
 import * as moment from 'moment';
 
+import * as FirebaseConfig from '../config/firebase.config.json';
+import {CategoryInterface, ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
+import {snapshotToArray} from '../common/functions';
 
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
-@inject('firebaseRoot', Config, HttpClient)
+@inject(HttpClient)
 export class DataService {
+  private config: FirebaseConfigInterface = FirebaseConfig;
+
   posts: {}[];
   categories: string[];
 
-  constructor (private firebaseRoot, private blogConfig: Config, private http: HttpClient) {
+  constructor (private http: HttpClient) {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl(this.blogConfig.source);
+        .withBaseUrl(this.config.databaseURL);
     });
+  }
+
+  async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
+    let data = [];
+
+    await firebase.database().ref()
+      .child('content')
+      .orderByChild('type')
+      .equalTo(type)
+      .once('value', snapshot => data = snapshotToArray(snapshot));
+
+    return data;
+  }
+
+  async getDefaultCategory(): Promise<CategoryInterface> {
+    let defaultCategory = null;
+
+    await firebase.database().ref()
+      .child('categories')
+      .orderByChild('isDefault')
+      .equalTo(true)
+      .once('value', snapshot => defaultCategory = snapshot.val());
+
+      return defaultCategory;
   }
 
   async getData(data: string, refresh:boolean = false) {
@@ -33,7 +61,7 @@ export class DataService {
     return items;
   }
   
-  async loadPosts(refresh:boolean = false) {
+  async loadPosts(refresh:boolean = false): Promise<any[]> {
     if (this.posts === undefined || refresh === true) {
       this.posts = _.sortBy(await this.getData('posts'), (post) => {
         return moment(post.posted);
@@ -63,7 +91,7 @@ export class DataService {
     });
   }
 
-  async getPostByUrl(url: string, refresh: boolean = false) {
+  async getPostByUrl(url: string, refresh: boolean = false): Promise<any> {
     if (this.posts === undefined || refresh === true) {
       this.posts = await this.getData('posts');
     }

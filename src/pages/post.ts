@@ -1,13 +1,24 @@
-import { inject } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { DataService } from '../services/dataService';
 import { Markdown } from '../services/markdown';
-import { Config } from '../services/config';
 
-@inject(Config, DataService, Markdown)
-export class Post{
+import * as ApplicationConfig from '../config/application.config.json';
+
+import {SiteConfigInterface} from '../common/interfaces';
+
+@autoinject
+export class Post {
+  public config: SiteConfigInterface;
+  
   post: BlogPost;
 
-  constructor (private bConf: Config, private ds, private md: Markdown) {
+  constructor (private ds: DataService, private md: Markdown) {
+  }
+  
+  async activate(params): Promise<void> {
+    this.post = await this.ds.getPostByUrl(params.url);
+    this.post['fullUrl'] = encodeURIComponent(window.location.href.replace('/post/', '/#/post/'));
+
     // show titlebar when past the title
     window.addEventListener('scroll', function() {
       let titlebar = document.getElementById('titlebar');
@@ -22,10 +33,5 @@ export class Post{
     });
     // Reset scroll height carried over from home
     window.scrollTo(0, 0);
-  }
-  
-  async activate(params): Promise<void> {
-    this.post = await this.ds.getPostByUrl(params.url);
-    this.post['fullUrl'] = encodeURIComponent(window.location.href.replace('/post/', '/#/post/'));
   }
 }

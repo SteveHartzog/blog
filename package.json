@@ -104,6 +104,7 @@
     "aurelia-templating-router": "1.1.0",
     "bluebird": "3.5.0",
     "bootstrap": "4.0.0-alpha.6",
+    "firebase": "^3.9.0",
     "font-awesome": "4.7.0",
     "html-loader": "0.4.5",
     "isomorphic-fetch": "2.2.1",

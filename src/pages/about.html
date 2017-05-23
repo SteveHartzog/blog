@@ -10,8 +10,8 @@
       <header>
         <h1 id="posttitle">About Me</h1>
         <div class="authorQuote">
-          <img alt="${bConf.name}" src="/images/${bConf.avatarImage}" />
-          <blockquote>${bConf.authorQuote}</blockquote>
+          <img alt="${bConf.name}" src="/images/${config.avatar}" />
+          <blockquote>${config.siteBlurb}</blockquote>
         </div>
         <!--<span class="meta">Posted by <a href="/about">${post.postedBy}</a> on <i class="fa fa-clock-o"></i><time datetime.bind="post.posted">${post.posted}</time>.  <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template> </span>-->
       </header>
@@ -20,17 +20,17 @@
         <p>Speaker @ Nova Code Camp on "<a href="http://novacodecamp.org/#session21">Introduction to Aurelia</a>", and @ AngularJS-DC meetup "<a href="https://www.meetup.com/AngularJS-DC/events/238468336/">Aurelia vs. Angular</a>".</p>
       </section>
       <div class="authorProfile">
-        <img class="avatar" alt="${post.postedBy}" src="/images/${bConf.avatarImage}">
+        <img class="avatar" alt="${post.postedBy}" src="/images/${config.avatar}">
         <div class="info">
           <h4>${post.postedBy}</h4>
-          <a href="${bConf.url}">${bConf.url}</a>
+          <a href="${config.url}">${config.url}</a>
           <p></p>
           
           <ul class="social">
-            <li><a class="twitter" href="https://twitter.com/${bConf.twitter}" target="_blank"><i class="fa fa-twitter"></i></a></li>
-            <li><a class="github" href="https://github.com/${bConf.github}" target="_blank"><i class="fa fa-github-alt"></i></a></li>
-            <li><a class="googleplus" href="https://plus.google.com/u/0/+${bConf.googlePlus}" target="_blank"><i class="fa fa-google-plus"></i></a></li>
-            <!--<li><a class="rss" href="${bConf.feedRss}/rss.xml" target="_blank"><i class="fa fa-rss"></i></a></li>-->
+            <li><a class="twitter" href="https://twitter.com/${socialConfig.twitter}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            <li><a class="github" href="https://github.com/${socialConfig.github}" target="_blank"><i class="fa fa-github-alt"></i></a></li>
+            <li><a class="googleplus" href="https://plus.google.com/u/0/+${socialConfig.googlePlus}" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+            <!--<li><a class="rss" href="${socialConfig.feedRss}/rss.xml" target="_blank"><i class="fa fa-rss"></i></a></li>-->
           </ul>
         </div>
       </div>
