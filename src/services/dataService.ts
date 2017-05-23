@@ -26,7 +26,7 @@ export class DataService {
   }
 
   async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
-    let data = [];
+    let data: ContentInterface[] = [];
 
     await firebase.database().ref()
       .child('content')
@@ -37,8 +37,19 @@ export class DataService {
     return data;
   }
 
+  async getCategories(): Promise<CategoryInterface[]> {
+    let categories: CategoryInterface[];
+
+    await firebase.database().ref()
+      .child('categories')
+      .orderByChild('name')
+      .once('value', snapshot => categories = snapshotToArray(snapshot));
+
+      return categories;
+  }
+
   async getDefaultCategory(): Promise<CategoryInterface> {
-    let defaultCategory = null;
+    let defaultCategory: CategoryInterface = null;
 
     await firebase.database().ref()
       .child('categories')
