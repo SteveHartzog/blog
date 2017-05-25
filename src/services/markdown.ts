@@ -2,6 +2,8 @@ import * as MarkdownIt from 'markdown-it';
 import * as emoji from 'markdown-it-emoji';
 import * as twemoji from 'twemoji';
 import * as deflist from 'markdown-it-deflist';
+import * as hljs from 'highlight.js';
+window['hljs'] = hljs;
 
 export class Markdown {
   constructor() {
@@ -27,7 +29,14 @@ export class Markdown {
       // Highlighter function. Should return escaped HTML,
       // or '' if the source string is not changed and should be escaped externaly.
       // If result starts with <pre... internal wrapper is skipped.
-      highlight: function (/*str, lang*/) { return ''; }
+      highlight: function (str, lang) { 
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return hljs.highlight(lang, str).value;
+          } catch (__) {}
+        }
+        return ''; 
+      }
     });
     md.use(deflist)
       .use(emoji);

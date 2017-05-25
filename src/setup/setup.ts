@@ -54,7 +54,7 @@ export class Setup {
           {
             title: 'Application Architecture 2015',
             category: '-KkpZ2f3uCQGFaycHNDs',
-            content: 'Here are my thoughts on web application architecture. It was a presentation I did for a company in DC for an interview.  \n \n  Google Slides: [Application Architecture](http://slides.com/stevehartzog/apparchitecture#/)',
+            content: 'Here are my thoughts on web application architecture. ```css\nIt was a presentation``` ~~~~\nI did for a company in DC for an interview.\n~~~~  \n \n  Google Slides: [Application Architecture](http://slides.com/stevehartzog/apparchitecture#/)',
             excerpt: 'JavaScript Application Architecture in 2015.',
             author: 'Steve',
             type: 'post',

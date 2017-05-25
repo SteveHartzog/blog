@@ -1,7 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { DataService } from '../services/dataService';
 import { Markdown } from '../services/markdown';
-
+debugger;
 import * as ApplicationConfig from '../config/application.config.json';
 
 import {SiteConfigInterface} from '../common/interfaces';
