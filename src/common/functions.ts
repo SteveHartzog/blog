@@ -4,7 +4,7 @@
  * from within a HTML template.
  * 
 */
-export const snapshotToArray = snapshot => {
+export const snapshotToArray = (snapshot, type = null) => {
   let returnArr = [];
 
   snapshot.forEach(childSnapshot => {
@@ -12,8 +12,17 @@ export const snapshotToArray = snapshot => {
     
     item.id = childSnapshot.key;
 
-    returnArr.push(item);
+    // If we are filtering by type
+    if (type !== null) {
+      if (type === item.type) {
+        returnArr.push(item);
+      }
+    } else {
+      returnArr.push(item);
+    }
   });
 
   return returnArr;
 };
+
+export const filterByType = (object, type) => object.filter(key => object.type === type);

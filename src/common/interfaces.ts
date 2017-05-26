@@ -23,9 +23,9 @@ export interface ContentInterface {
   excerpt?: string;
   content?: string;
   author?: string;
-  views?: number;
   type: ContentType;
-  status: ContentStatus;
+  isPublished?: boolean;
+  slug?: string;
   created_at?: number;
   updated_at?: number;
 }
@@ -47,4 +47,10 @@ export interface ISocial {
   github: string;
   googleplus: string;
   linkedin: string;
+}
+
+export interface CommentInterface {
+  userId?: string;
+  contentId?: string;
+  content?: string;
 }

@@ -52,12 +52,37 @@ export class Setup {
 
         const posts: ContentInterface[] = [
           {
-            title: 'Hello, World',
-            category: null,
-            content: 'Hello, this is a test blog post being displayed from Firebase. You can remove this post by logging into Firebase and deleting this post in the content table.',
-            author: '123455666',
+            title: 'Application Architecture 2015',
+            category: '-KkpZ2f3uCQGFaycHNDs',
+            content: 'Here are my thoughts on web application architecture. It was a presentation I did for a company in DC for an interview.  \n \n  Google Slides: [Application Architecture](http://slides.com/stevehartzog/apparchitecture#/)',
+            excerpt: 'JavaScript Application Architecture in 2015.',
+            author: 'Steve',
             type: 'post',
-            status: 'published'
+            status: 'published',
+            url: 'app-architecture-2015',
+            created_at: '2015-01-18 17:15'
+          },
+          {
+            title: 'JavaScript Modules',
+            category: '-KkpZ2f3uCQGFaycHNDs',
+            content: 'I put together a quick presentation on the different JavaScript module types. CommonJS, ES2015, AMD. AMD and RequireJS are long overdue for being expunged, deleted and forgotten about.  \n  \nGoogle Slides: [JavaScript Modules](https://docs.google.com/presentation/d/1qOOLIQWjvzvhjhcRLSNYVSheqK5HOSgH4IJWLI4YS0s/edit?usp=sharing)',
+            excerpt: 'Another post that describes the current holiday when I was writing it.',
+            author: 'Steve',
+            type: 'post',
+            status: 'published',
+            url: 'javascript-modules',
+            created_at: '2015-05-01 17:20'
+          },
+          {
+            title: 'JavaScript Build presentation.',
+            category: '-KkpZ2f3uCQGFaycHNDs',
+            content: 'I put together a quick presentation on the different JavaScript build options.  \n  \nGoogle Slides: (JavaScript Build)[https://docs.google.com/presentation/d/1jCYVxAwmvR9jGM76salvbrEwQV9CdfRlKHKiM5cpXfQ/edit?usp=sharing]  \n  \n  ##tldr; Yep, I like SystemJS. Transpilation. Build pipeline. Kitchen sink. :)',
+            excerpt: 'JavaScript Build presentation.',
+            author: 'Steve',
+            type: 'post',
+            status: 'published',
+            url: 'javascript-build',
+            created_at: '2015-05-22 10:50'
           }
         ];
 

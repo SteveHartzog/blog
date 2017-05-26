@@ -25,20 +25,41 @@ export class DataService {
     });
   }
 
-  async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
-    let data = [];
+  async getContent(type: ContentType = 'post', onlyPublished: boolean = true): Promise<ContentInterface[]> {
+    let data: ContentInterface[] = [];
 
-    await firebase.database().ref()
-      .child('content')
-      .orderByChild('type')
-      .equalTo(type)
-      .once('value', snapshot => data = snapshotToArray(snapshot));
+    if (onlyPublished) {
+      await firebase.database().ref()
+        .child('content')
+        .orderByChild('isPublished')
+        .equalTo(true)
+        .once('value', snapshot => {
+          data = snapshotToArray(snapshot, 'post');
+        });
+    } else {
+      await firebase.database().ref()
+        .child('content')
+        .orderByChild('type')
+        .equalTo(type)
+        .once('value', snapshot => data = snapshotToArray(snapshot));
+    }
 
     return data;
   }
 
+  async getCategories(): Promise<CategoryInterface[]> {
+    let categories: CategoryInterface[];
+
+    await firebase.database().ref()
+      .child('categories')
+      .orderByChild('name')
+      .once('value', snapshot => categories = snapshotToArray(snapshot));
+
+      return categories;
+  }
+
   async getDefaultCategory(): Promise<CategoryInterface> {
-    let defaultCategory = null;
+    let defaultCategory: CategoryInterface = null;
 
     await firebase.database().ref()
       .child('categories')
@@ -47,6 +68,18 @@ export class DataService {
       .once('value', snapshot => defaultCategory = snapshot.val());
 
       return defaultCategory;
+  }
+
+  async getComments(contentId: string) {
+    let comments = [];
+
+    await firebase.database().ref()
+      .child('comments')
+      .orderByChild('contentId')
+      .equalTo(contentId)
+      .once('value', snapshot => comments = snapshotToArray(snapshot));
+
+    return comments;
   }
 
   async getData(data: string, refresh:boolean = false) {
