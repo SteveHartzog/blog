@@ -7,7 +7,8 @@ const { optimize: { CommonsChunkPlugin }, ProvidePlugin } = require('webpack')
 const { TsConfigPathsPlugin, CheckerPlugin } = require('awesome-typescript-loader');
 
 const ApplicationConfig = require('./src/config/application.config.json');
-const SocialConfig = require('./src/config/social.config.json');
+const AuthorConfig = require('./src/config/author.config.json');
+// const SocialConfig = require('./src/config/social.config.json');
 
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || []

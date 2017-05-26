@@ -2,17 +2,20 @@ import { autoinject } from 'aurelia-framework';
 import { DataService } from '../services/dataService';
 import { Markdown } from '../services/markdown';
 
-import * as ApplicationConfig from '../config/application.config.json';
-
-import {SiteConfigInterface} from '../common/interfaces';
+import * as AuthorConfig from '../config/author.config.json';
+// import * as SocialConfig from '../config/social.config.json';
+import {AuthorInterface, ISocial} from '../common/interfaces';
 
 @autoinject
 export class Post {
-  public config: SiteConfigInterface;
+  // public config: SiteConfigInterface;
+  public author: AuthorInterface;
+  public social: ISocial;
   
   post: BlogPost;
 
   constructor (private ds: DataService, private md: Markdown) {
+    this.author = AuthorConfig[0] as AuthorInterface;
   }
   
   async activate(params): Promise<void> {

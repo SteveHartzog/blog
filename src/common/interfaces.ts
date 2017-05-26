@@ -23,16 +23,16 @@ export interface ContentInterface {
   excerpt?: string;
   content?: string;
   author?: string;
-  views?: number;
   type: ContentType;
-  status: ContentStatus;
+  isPublished?: boolean;
+  slug?: string;
   created_at?: number;
   updated_at?: number;
 }
 
 export interface AuthorInterface {
-  avatar?: string;
   name: string;
+  avatar?: string;
 }
 
 export interface CategoryInterface {
@@ -40,4 +40,17 @@ export interface CategoryInterface {
   description?: string | null;
   parentCategory?: string | null;
   isDefault?: boolean;
+}
+
+export interface ISocial {
+  twitter: string;
+  github: string;
+  googleplus: string;
+  linkedin: string;
+}
+
+export interface CommentInterface {
+  userId?: string;
+  contentId?: string;
+  content?: string;
 }
