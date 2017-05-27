@@ -26,8 +26,10 @@ export interface ContentInterface {
   type: ContentType;
   isPublished?: boolean;
   slug?: string;
-  created_at?: number;
+  created_at?: string;
   updated_at?: number;
+  status: string;
+  url: string;
 }
 
 export interface AuthorInterface {
