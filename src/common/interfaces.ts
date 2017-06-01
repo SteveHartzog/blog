@@ -26,13 +26,15 @@ export interface ContentInterface {
   type: ContentType;
   isPublished?: boolean;
   slug?: string;
-  created_at?: number;
+  created_at?: string;
   updated_at?: number;
+  status: string;
+  url: string;
 }
 
 export interface AuthorInterface {
-  avatar?: string;
   name: string;
+  avatar?: string;
 }
 
 export interface CategoryInterface {
@@ -40,6 +42,13 @@ export interface CategoryInterface {
   description?: string | null;
   parentCategory?: string | null;
   isDefault?: boolean;
+}
+
+export interface ISocial {
+  twitter: string;
+  github: string;
+  googleplus: string;
+  linkedin: string;
 }
 
 export interface CommentInterface {

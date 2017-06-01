@@ -1,0 +1,15 @@
+<template bindable="author" class="profile post stuck">
+  <img src="/images/${author.avatar}" class="profileimage" alt="${author.name}">
+  <h4>${author.name}</h4>
+  <p>${author.quote}</p>
+  <ul class="social">
+    <li><a class="twitter smallsocial" if.bind="author.social.twitter" href="https://twitter.com/${author.social.twitter}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+    <li><a class="github smallsocial" if.bind="author.social.github" href="https://github.com/${author.social.github}" target="_blank"><i class="fa fa-github-alt"></i></a></li>
+    <li><a class="googleplus smallsocial" if.bind="author.social.googleplus" href="https://plus.google.com/u/0/+${author.social.googleplus}" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+    <li><a class="vimeo smallsocial" if.bind="author.social.vimeo" href="https://vimeo.com/channels/${author.social.vimeo}" target="_blank"><i class="fa fa-vimeo"></i></a></li>
+    <li><a class="stackoverflow smallsocial" if.bind="author.social.stackoverflow" href="http://stackoverflow.com/questions/tagged/${author.social.stackoverflow}" target="_blank"><i class="fa fa-stack-overflow"></i></a></li>
+    <li><a class="rss smallsocial" if.bind="author.social.rss" href="${author.social.rss}" target="_blank"><i class="fa fa-rss"></i></a></li>
+  </ul>
+  <p></p>
+  <hr>
+</template>
