@@ -1,8 +1,8 @@
 {
-    "apiKey": "AIzaSyDufoGnnaMAbDUhI6DN0mtBUwE_OUm7Br4",
-    "authDomain": "au-blog.firebaseapp.com",
-    "databaseURL": "https://au-blog.firebaseio.com/",
-    "projectId": "au-blog",
-    "storageBucket": "au-blog.appspot.com",
-    "messagingSenderId": "23006115023"
+    "apiKey": "AIzaSyBMcxjjAdJAkd7hwQbvmIpAV_LsirDpjlI",
+    "authDomain": "blog-e668a.firebaseapp.com",
+    "databaseURL": "https://blog-e668a.firebaseio.com/",
+    "projectId": "blog-e668a",
+    "storageBucket": "blog-e668a.appspot.com",
+    "messagingSenderId": "529163607438"
 }
