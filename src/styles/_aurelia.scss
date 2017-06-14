@@ -243,13 +243,11 @@ footer {
   background: $gplus-color;
 }
 
-
 .titlebar {
   position: fixed;
   z-index: 100;
   top: 0px;
   left: 0px;
-  display: none;
   width: 100%;
   margin: 0;
   padding: 20px 0 20px;
@@ -587,11 +585,14 @@ nav .toggle i {
 }
 
 .mainnav {
-  position: absolute;
+  position: fixed;
   z-index: 400;
   top: 0px;
   right: 20px;
 
+  .navwrap {
+    padding: 20px 0;
+  }
   .navwrap:hover .menu, .navwrap:hover .toggle {
     opacity: 1;
   }
@@ -614,13 +615,13 @@ nav .toggle i {
     }
 
     li:hover a {
-      color: #202020;
+      color: #fff;
     }
 
     a {
       font: 600 14px 'Open Sans', Arial, Sans-Serif;
       display: block;
-      padding: 30px 10px;
+      padding: 0 10px;
       text-transform: uppercase;
       color: #7d7d7d;
     }
@@ -632,7 +633,7 @@ nav .toggle i {
 
   .toggle {
     display: inline-block;
-    padding: 30px 10px 30px 15px;
+    padding: 0 10px 0 15px;
     opacity: 0.6;
     -webkit-transition: opacity 0.1s ease-out;
     -moz-transition: opacity 0.1s ease-out;

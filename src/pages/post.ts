@@ -1,39 +1,29 @@
 import { autoinject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { DataService } from '../services/dataService';
 import { Markdown } from '../services/markdown';
+import * as  _ from 'lodash';
 
 import * as AuthorConfig from '../config/author.config.json';
-// import * as SocialConfig from '../config/social.config.json';
-import {AuthorInterface, ISocial} from '../common/interfaces';
+import { ContentInterface, AuthorInterface, ISocial} from '../common/interfaces';
 
 @autoinject
 export class Post {
-  // public config: SiteConfigInterface;
   public author: AuthorInterface;
   public social: ISocial;
   
-  post: BlogPost;
+  post: ContentInterface;
 
-  constructor (private ds: DataService, private md: Markdown) {
-    this.author = AuthorConfig[0] as AuthorInterface;
+  constructor (public event: EventAggregator, private ds: DataService, private md: Markdown) {
   }
   
   async activate(params): Promise<void> {
     this.post = await this.ds.getPostByUrl(params.url);
+    this.event.publish('setContentTitle', this.post.title);
+    let authorConfig = JSON.parse(JSON.stringify(AuthorConfig)) as AuthorInterface[];
+    this.author = _.find(authorConfig, (author) => { return author.name === this.post.author; });
     this.post['fullUrl'] = encodeURIComponent(window.location.href.replace('/post/', '/#/post/'));
 
-    // show titlebar when past the title
-    window.addEventListener('scroll', function() {
-      let titlebar = document.getElementById('titlebar');
-      let postBody = document.getElementById('postbody');
-      if (postBody) {
-        if (window.scrollY > (postBody['offsetTop'] - 100)) {
-          titlebar.style.display = 'block';
-        } else {
-          titlebar.style.display = 'none';
-        }
-      }
-    });
     // Reset scroll height carried over from home
     window.scrollTo(0, 0);
   }
