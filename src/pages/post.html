@@ -6,7 +6,7 @@
         <h1 id="posttitle">${post.title}</h1>
         <span class="meta">Posted by <a href="/about">${author.name}</a> on <i class="fa fa-clock-o"></i><time datetime.bind="post.posted">${post.posted | dateFormat: 'MMMM Do, YYYY'}</time>. <!-- <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template> --></span>
       </header>
-      <section id="postbody" innerhtml="${md.renderInline(post.body)}"></section>
+      <section id="postbody" innerhtml="${md.render(post.body)}"></section>
       <footer>
         <ul class="share left">
           <li if.bind="author.social.twitter"><a class="smallbutton twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" href="http://twitter.com/share?text=${post.title}&amp;url=${post.fullUrl}"><i class="fa fa-twitter"></i>Twitter</a></li>

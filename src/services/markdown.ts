@@ -2,10 +2,11 @@ import * as MarkdownIt from 'markdown-it';
 import * as emoji from 'markdown-it-emoji';
 import * as twemoji from 'twemoji';
 import * as deflist from 'markdown-it-deflist';
+import * as hljs from 'highlight.js';
 
 export class Markdown {
   constructor() {
-    let md = new MarkdownIt({
+    const md = new MarkdownIt({
       html:         true,        // Enable HTML tags in source
       xhtmlOut:     true,        // Use '/' to close single tags (<br />).
                                   // This is only for full CommonMark compatibility.
@@ -15,7 +16,7 @@ export class Markdown {
       linkify:      true,        // Autoconvert URL-like text to links
 
       // Enable some language-neutral replacement + quotes beautification
-      typographer:  false,
+      typographer:  true,
 
       // Double + single quotes replacement pairs, when typographer enabled,
       // and smartquotes on. Could be either a String or an Array.
@@ -27,13 +28,22 @@ export class Markdown {
       // Highlighter function. Should return escaped HTML,
       // or '' if the source string is not changed and should be escaped externaly.
       // If result starts with <pre... internal wrapper is skipped.
-      highlight: function (/*str, lang*/) { return ''; }
+      highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return '<pre class="hljs"><code>' +
+                    hljs.highlight(lang, str, true).value +
+                    '</code></pre>';
+          } catch (__) {}
+        }
+        return ''; 
+      }
     });
     md.use(deflist)
       .use(emoji);
     md.renderer.rules['emoji'] = function(token, idx) {
       return twemoji.parse(token[idx].content);
     };
-    return md;
+  return md;
   }
 }
