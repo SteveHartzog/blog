@@ -6,12 +6,11 @@ import * as hljs from 'highlight.js';
 
 export class Markdown {
   constructor() {
-
     const md = new MarkdownIt({
       html:         true,        // Enable HTML tags in source
       xhtmlOut:     true,        // Use '/' to close single tags (<br />).
                                   // This is only for full CommonMark compatibility.
-      breaks:       false,        // Convert '\n' in paragraphs into <br>
+      breaks:       true,        // Convert '\n' in paragraphs into <br>
       langPrefix:   'language-',  // CSS language prefix for fenced blocks. Can be
                                   // useful for external highlighters.
       linkify:      true,        // Autoconvert URL-like text to links

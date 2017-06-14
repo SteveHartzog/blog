@@ -11,32 +11,32 @@
       <header>
         <h1 id="posttitle">${post.title}</h1>
         <span class="meta">Posted by <a href="/about">${post.postedBy}</a> on <i class="fa fa-clock-o"></i><time datetime.bind="post.posted">${post.posted | dateFormat: 'MMMM Do, YYYY'}</time>. <!-- <template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template>--></span>
-</header>
-<section id="postbody" innerhtml="${md.render(post.body)}"></section>
-<footer>
-    <ul class="share left">
-        <li if.bind="author.social.twitter"><a class="smallbutton twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" href="http://twitter.com/share?text=${post.title}&amp;url=${post.fullUrl}"><i class="fa fa-twitter"></i>Twitter</a></li>
-        <!--<li if.bind="author.social.github"><a class="smallbutton github" href="https://github.com/${author.social.github}" target="_blank"><i class="fa fa-github-alt"></i></a></li>-->
-        <li if.bind="author.social.googleplus"><a class="smallbutton googleplus" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" href="https://plus.google.com/share?url=${post.fullUrl}" target="_blank"><i class="fa fa-google-plus"></i>Google+</a></li>
-        <!--<li if.bind="social.rss"><a class="smallbutton rss" href="${author.social.rss}/rss.xml" target="_blank"><i class="fa fa-rss"></i></a></li>-->
-        <!--<li><a class="smallbutton lightgray" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" href="http://twitter.com/share?text=${post.title}&amp;url=${post.fullUrl}"><i class="fa fa-twitter"></i>Twitter</a></li>
+      </header>
+      <section id="postbody" innerhtml="${md.render(post.body)}"></section>
+      <footer>
+        <ul class="share left">
+          <li if.bind="author.social.twitter"><a class="smallbutton twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" href="http://twitter.com/share?text=${post.title}&amp;url=${post.fullUrl}"><i class="fa fa-twitter"></i>Twitter</a></li>
+          <!--<li if.bind="author.social.github"><a class="smallbutton github" href="https://github.com/${author.social.github}" target="_blank"><i class="fa fa-github-alt"></i></a></li>-->
+          <li if.bind="author.social.googleplus"><a class="smallbutton googleplus" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" href="https://plus.google.com/share?url=${post.fullUrl}" target="_blank"><i class="fa fa-google-plus"></i>Google+</a></li>
+          <!--<li if.bind="social.rss"><a class="smallbutton rss" href="${author.social.rss}/rss.xml" target="_blank"><i class="fa fa-rss"></i></a></li>-->
+          <!--<li><a class="smallbutton lightgray" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" href="http://twitter.com/share?text=${post.title}&amp;url=${post.fullUrl}"><i class="fa fa-twitter"></i>Twitter</a></li>
           <li><a class="smallbutton lightgray" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" href="https://www.facebook.com/sharer/sharer.php?u=${post.fullUrl}"><i class="fa fa-facebook"></i>Facebook</a></li>
           <li><a class="smallbutton lightgray" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" href="https://plus.google.com/share?url=${post.fullUrl}"><i class="fa fa-google-plus"></i>Google+</a></li>-->
-    </ul>
-</footer>
-<div class="authorProfile">
-    <img class="avatar" alt="${author.name}" src="/images/${author.avatar}">
-    <div class="info">
-        <h4>${author.name}</h4>
-        <a href="${author.blog}">${author.blog}</a>
-        <ul class="social">
+        </ul>
+      </footer>
+      <div class="authorProfile">
+        <img class="avatar" alt="${author.name}" src="/images/${author.avatar}">
+        <div class="info">
+          <h4>${author.name}</h4>
+          <a href="${author.blog}">${author.blog}</a>
+          <ul class="social">
             <li><a class="twitter" if.bind="author.social.twitter" href="https://twitter.com/${author.social.twitter}" target="_blank"><i class="fa fa-twitter"></i></a></li>
             <li><a class="github" if.bind="author.social.github" href="https://github.com/${author.social.github}" target="_blank"><i class="fa fa-github-alt"></i></a></li>
             <li><a class="googleplus" if.bind="author.social.googleplus" href="https://plus.google.com/u/0/+${author.social.googleplus}" target="_blank"><i class="fa fa-google-plus"></i></a></li>
             <li><a class="rss" if.bind="social.rss" href="${author.social.rss}/rss.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
-        </ul>
-    </div>
-</div>
-</article>
-</section>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
 </template>
