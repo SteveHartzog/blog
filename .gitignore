@@ -6,5 +6,4 @@ debug.log
 /test/coverage* 
 .vscode/settings.json
 dist
-yarn-error.log
 test-data
