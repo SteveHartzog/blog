@@ -1,4 +1,5 @@
 import {autoinject, bindable} from 'aurelia-framework';
+import * as firebase from 'firebase';
 import {CommentInterface} from '../../../common/interfaces';
 
 import {DataService} from '../../../services/dataService';

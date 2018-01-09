@@ -1,10 +1,14 @@
+// Bootstrap v4.0.0-beta.3 (https://getbootstrap.com)
+
+// Fix for bootstrap beta, due to variable used by variables being in new functions
+@import '../../node_modules/bootstrap/scss/functions.scss'; 
+
 @import '../../node_modules/bootstrap/scss/variables';
 @import 'variables';
-// Bootstrap v4.0.0-alpha.6 (https://getbootstrap.com)
 // Core variables and mixins
 @import '../../node_modules/bootstrap/scss/mixins';
 // Reset and dependencies
-@import '../../node_modules/bootstrap/scss/normalize';
+// @import '../../node_modules/bootstrap/scss/normalize';
 // @import '../../node_modules/bootstrap/scss/print';
 // Core CSS
 @import '../../node_modules/bootstrap/scss/reboot';

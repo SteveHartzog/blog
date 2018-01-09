@@ -1,4 +1,5 @@
 import {ContentInterface, CategoryInterface} from '../common/interfaces';
+import * as firebase from 'firebase';
 
 export class Setup {
   private db: any;
