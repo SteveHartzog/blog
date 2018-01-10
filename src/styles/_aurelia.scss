@@ -3,6 +3,7 @@ $gplus-color: #dd4b39;
 $github-color: #171515;
 $linkedin-color: #0e76a8;
 $facebook-color: #3b5998;
+$eta-border-color: transparent; /* darkgray; */
 
 
 .pulsate {
@@ -880,4 +881,33 @@ nav .toggle i {
 .smallsocial.rss:hover {
   color: #fff;
   background: #ee802f;
+}
+
+.eta {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
+  background-color: #F0F0F0;
+  color: #808080;
+  border: 1px solid $eta-border-color;
+  border-radius: 3px;
+  font-family: Georgia;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px
+}
+  
+.eta:after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  height: 0;
+  width: 0;
+  margin-top: -4px;
+  border: 4px solid transparent;
+  border-left-color: $eta-border-color; /* #F0F0F0; */
 }
