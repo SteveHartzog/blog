@@ -1,0 +1,20 @@
+{
+  "debug": {
+    "start": {
+      "output": "workbench.debug.action.focusRepl",
+      "explorer": "workbench.view.debug"
+    },
+    "stop": {
+      "output": "workbench.action.output.toggleOutput",
+      "explorer": "workbench.view.explorer",
+      "terminatePreLaunchTask": true
+    }
+  },
+  "statusbar": {
+    "disable": false,
+    "align": "left",
+    "hideIcon": false,
+    "icon": "search",
+    "priority": 0
+  }
+}
