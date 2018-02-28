@@ -1,0 +1,20 @@
+<template>
+    <div class="comments-block">
+        <h4>Post a comment</h4>
+        <div class="comments-block__compose">
+            <template if.bind="isLoggedIn">
+                <p>You are logged in as ${currentUser.name} ${currentUser.provider}</p>
+                <textarea value.bind="comment.content"></textarea>
+            </template>
+            <template if.bind="!isLoggedIn">
+                <a href="javascript:void(0);" click.delegate="login('facebook')">Login via Facebook</a>
+                <a href="javascript:void(0);" click.delegate="login('google')">Login via Google</a>
+                <a href="javascript:void(0);" click.delegate="login('twitter')">Login via Twitter</a>
+            </template>
+        </div>
+
+        <div class="comments-block__comment" repeat.for="comment of comments">
+            <div class="comments-block__comment__content" innerhtml.bind="comment.content"></div>
+        </div>
+    </div>
+</template>

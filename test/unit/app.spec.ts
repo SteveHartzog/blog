@@ -1,5 +1,5 @@
-import {App} from '../../src/app';
-import {Config} from '../../src/services/config';
+import { App } from '../../src/app';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 class RouterStub {
   routes;
@@ -15,12 +15,12 @@ class RouterStub {
 
 describe('the App module', () => {
   let sut: App;
-  let bConf: Config;
   let mockedRouter: any;
 
   beforeEach(() => {
     mockedRouter = new RouterStub();
-    sut = new App(bConf);
+    let ea = new EventAggregator();
+    sut = new App(ea);
     sut.configureRouter(mockedRouter, mockedRouter);
   });
 

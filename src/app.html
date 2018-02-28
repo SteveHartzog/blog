@@ -2,7 +2,7 @@
   <require from="./resources/elements/nav-bar.html"></require>
   <require from="./resources/elements/categories/categories"></require>
 
-  <nav-bar router.bind="router" name.bind="config.siteName" scroll.bind="smoothScrollTo" cover.bind="config.coverImage" quote.bind="config.siteBlurb"></nav-bar>
+  <nav-bar router.bind="router" site-title.bind="config.siteTitle" content-title.bind="contentTitle" author.bind="author.name" scroll.bind="smoothScrollTo" cover.bind="config.coverImage" quote.bind="config.siteBlurb"></nav-bar>
   
   <router-view id="pageStart"></router-view>
   

@@ -1,37 +1,90 @@
 import { inject } from 'aurelia-framework';
 import * as _ from 'lodash/lodash.min';
 import { HttpClient } from 'aurelia-fetch-client';
-import { Config } from './config';
 import * as moment from 'moment';
+import * as firebase from 'firebase';
 
-import {ContentType, ContentInterface} from '../interfaces';
+// Works in TS 2.3.2
+// import * as FirebaseConfig from '../config/firebase.config.json';
+// Required by TS 2.6.2
+let FirebaseConfig = require('../config/firebase.config.json');
+
+import {CategoryInterface, ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
+import {snapshotToArray} from '../common/functions';
 
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
-@inject('firebaseRoot', Config, HttpClient)
+@inject(HttpClient)
 export class DataService {
+  private config: FirebaseConfigInterface = FirebaseConfig;
+
   posts: {}[];
   categories: string[];
 
-  constructor (private firebaseRoot, private blogConfig: Config, private http: HttpClient) {
+  constructor (private http: HttpClient) {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl(this.blogConfig.source);
+        .withBaseUrl(this.config.databaseURL);
     });
   }
 
-  async getContent(type: ContentType = 'post'): Promise<ContentInterface[]> {
-    let data;
+  async getContent(type: ContentType = 'post', onlyPublished: boolean = true): Promise<ContentInterface[]> {
+    let data: ContentInterface[] = [];
 
-    await firebase.database().ref()
-      .child('content')
-      .orderByChild('type')
-      .equalTo(type)
-      .once('value', snapshot => data = snapshotToArray(snapshot));
+    if (onlyPublished) {
+      await firebase.database().ref()
+        .child('content')
+        .orderByChild('isPublished')
+        .equalTo(true)
+        .once('value', snapshot => {
+          data = snapshotToArray(snapshot, 'post');
+        });
+    } else {
+      await firebase.database().ref()
+        .child('content')
+        .orderByChild('type')
+        .equalTo(type)
+        .once('value', snapshot => data = snapshotToArray(snapshot));
+    }
 
     return data;
+  }
+
+  async getCategories(): Promise<CategoryInterface[]> {
+    let categories: CategoryInterface[];
+
+    await firebase.database().ref()
+      .child('categories')
+      .orderByChild('name')
+      .once('value', snapshot => categories = snapshotToArray(snapshot));
+
+      return categories;
+  }
+
+  async getDefaultCategory(): Promise<CategoryInterface> {
+    let defaultCategory: CategoryInterface = null;
+
+    await firebase.database().ref()
+      .child('categories')
+      .orderByChild('isDefault')
+      .equalTo(true)
+      .once('value', snapshot => defaultCategory = snapshot.val());
+
+      return defaultCategory;
+  }
+
+  async getComments(contentId: string) {
+    let comments = [];
+
+    await firebase.database().ref()
+      .child('comments')
+      .orderByChild('contentId')
+      .equalTo(contentId)
+      .once('value', snapshot => comments = snapshotToArray(snapshot));
+
+    return comments;
   }
 
   async getData(data: string, refresh:boolean = false) {
@@ -83,17 +136,3 @@ export class DataService {
     return this.posts[_.findIndex(this.posts, { 'url': url })];
   }
 }
-
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-
-  snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    
-    item.id = childSnapshot.key;
-
-    returnArr.push(item);
-  });
-
-  return returnArr;
-};
