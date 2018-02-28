@@ -4,7 +4,11 @@ npm-debug.log*
 debug.log
 /test/*coverage
 /test/coverage* 
-.vscode/settings.json
 dist
-yarn-error.log
 test-data
+
+## Team Essentials ##
+#####################
+.vscode/settings.json
+.vscode/team-essentials/state.json
+.vscode/user.json

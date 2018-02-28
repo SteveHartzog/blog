@@ -5,5 +5,6 @@ export function configure(config: FrameworkConfiguration) {
     PLATFORM.moduleName('./value-converters/date-format'),
     PLATFORM.moduleName('./elements/profile.html'),
     PLATFORM.moduleName('./elements/comments/comments'),
+    PLATFORM.moduleName('./elements/readingTime/readingTime')
   ]);
 }

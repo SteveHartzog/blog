@@ -2,8 +2,13 @@ import { inject } from 'aurelia-framework';
 import * as _ from 'lodash/lodash.min';
 import { HttpClient } from 'aurelia-fetch-client';
 import * as moment from 'moment';
+import * as firebase from 'firebase';
 
-import * as FirebaseConfig from '../config/firebase.config.json';
+// Works in TS 2.3.2
+// import * as FirebaseConfig from '../config/firebase.config.json';
+// Required by TS 2.6.2
+let FirebaseConfig = require('../config/firebase.config.json');
+
 import {CategoryInterface, ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
 import {snapshotToArray} from '../common/functions';
 

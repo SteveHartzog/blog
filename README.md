@@ -2,7 +2,7 @@
 ## Technologies in this skelton:
 * aurelia+typescript 2 (based on the aurelia-webpack-typescript skeleton)
 * webpack 2
-* bootstrap 4, alpha 6
+* bootstrap 4, beta 3
 * font-awesome
 * firebase (for blog store)
 
@@ -18,7 +18,7 @@ Before you start:
 From the project folder, execute the following commands:
 
 ```shell
-npm install # or: yarn install
+npm install
 ```
 
 This will install all required dependencies, including a local version of Webpack that is going to
@@ -27,7 +27,7 @@ build and bundle the app. There is no need to install Webpack globally.
 To run the app execute the following command:
 
 ```shell
-npm start # or: yarn start
+npm start
 ```
 
 This command starts the webpack development server that serves the build bundles.
