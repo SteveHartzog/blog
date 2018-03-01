@@ -1,14 +1,15 @@
-﻿/// <reference types="aurelia-loader-webpack/src/webpack-hot-interface"/> 
+﻿/// <reference types="aurelia-loader-webpack/src/webpack-hot-interface"/>
 // we want font-awesome to load as soon as possible to show the fa-spinner
-import 'font-awesome/css/font-awesome.min.css';
+import "font-awesome/css/font-awesome.min.css";
 // import '../node_modules/tether/dist/js/tether.min'
-import './styles/site.scss';
-import { Aurelia, PLATFORM } from 'aurelia-framework';
-import * as Bluebird from 'bluebird';
-import * as firebase from 'firebase';
+import "./styles/site.scss";
+import { Aurelia, PLATFORM } from "aurelia-framework";
+import * as Bluebird from "bluebird";
+import * as firebase from "firebase";
 
 // Import Firebase config
-import * as FirebaseConfig from './config/firebase.config.json';
+// import * as FirebaseConfig from './config/firebase.config.json';
+let FirebaseConfig = require("./config/firebase.config.json");
 
 // Store Firebase instance on global window
 window.firebase = firebase.initializeApp(FirebaseConfig);
@@ -17,10 +18,8 @@ window.firebase = firebase.initializeApp(FirebaseConfig);
 Bluebird.config({ warnings: { wForgottenReturn: false } });
 
 export async function configure(aurelia: Aurelia) {
-  aurelia.use
-    .standardConfiguration()
-    .feature(PLATFORM.moduleName('resources/index'));
-    // .developmentLogging();
+  aurelia.use.standardConfiguration().feature(PLATFORM.moduleName("resources/index"));
+  // .developmentLogging();
 
   // Uncomment the line below to enable animation.
   // aurelia.use.plugin(/* @import */ 'aurelia-animator-css');
@@ -30,5 +29,5 @@ export async function configure(aurelia: Aurelia) {
   // aurelia.use.plugin(/* @import */ 'aurelia-html-import-template-loader')
 
   await aurelia.start();
-  await aurelia.setRoot(PLATFORM.moduleName('app'));
+  await aurelia.setRoot(PLATFORM.moduleName("app"));
 }

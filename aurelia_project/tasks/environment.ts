@@ -1,4 +1,5 @@
-import project from "../aurelia.json";
+// import * as project from "../aurelia.json";
+let project = require("../aurelia.json");
 import * as rename from "gulp-rename";
 import { CLIOptions } from "aurelia-cli";
 import * as gulp from "gulp";

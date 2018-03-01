@@ -38,6 +38,9 @@ module.exports = ({ production, server, extractCss, coverage } = {}) => ({
     sourceMapFilename: production ? "[name].[chunkhash].bundle.map" : "[name].[hash].bundle.map",
     chunkFilename: production ? "[name].[chunkhash].chunk.js" : "[name].[hash].chunk.js"
   },
+
+  watch: true,
+
   devServer: {
     contentBase: outDir,
     // serve index.html for all 404 (required for push-state)

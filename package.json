@@ -9,9 +9,22 @@
     "blog",
     "webpack"
   ],
-  "author": "Steve Hartzog <shartzog@gmail.com> (http://stevehartzog.github.io/)",
   "license": "CC0-1.0",
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Steve Hartzog",
+      "email": "steven.hartzog@gmail.com",
+      "url": "https://about.me/Steve.Hartzog"
+    },
+    {
+      "name": "Carlos Moran"
+    },
+    {
+      "name": "Dwayne Charrington",
+      "email": "dwaynecharrington@gmail.com",
+      "url": "http://ilikekillnerds.com"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/SteveHartzog/blog/issues"
   },
@@ -42,6 +55,24 @@
       "aurelia-(.*)": "<rootDir>/node_modules/$1"
     }
   },
+  "dependencies": {
+    "aurelia-bootstrapper": "^2.2.0",
+    "aurelia-fetch-client": "1.3.1",
+    "aurelia-polyfills": "latest",
+    "bluebird": "^3.5.1",
+    "bootstrap": "4.0.0",
+    "firebase": "4.10.1",
+    "font-awesome": "4.7.0",
+    "highlight.js": "^9.12.0",
+    "isomorphic-fetch": "2.2.1",
+    "jquery": "3.2.1",
+    "markdown-it": "8.4.1",
+    "markdown-it-deflist": "2.0.3",
+    "markdown-it-emoji": "1.4.0",
+    "reading-time": "^1.1.0",
+    "tether": "1.4.3",
+    "twemoji": "2.5.0"
+  },
   "devDependencies": {
     "@firebase/app": "^0.1.5",
     "@firebase/auth": "^0.3.1",
@@ -53,12 +84,13 @@
     "@types/node": "^9.4.6",
     "@types/webpack": "^3.0.4",
     "aurelia-cli": "^0.32.0",
+    "aurelia-event-aggregator": "^1.0.1",
     "aurelia-loader-nodejs": "^1.0.1",
-    "aurelia-pal-nodejs": "1.0.0-beta.3.0.0",
-    "aurelia-testing": "^1.0.0-beta.4.0.0",
+    "aurelia-pal-nodejs": "1.0.0-beta.2.0.0",
+    "aurelia-testing": "^1.0.0-beta.3.0.1",
     "aurelia-tools": "^1.0.0",
+    "aurelia-webpack-plugin": "2.0.0-rc.4",
     "awesome-typescript-loader": "^3.4.1",
-    "aurelia-webpack-plugin": "2.0.0-rc.5",
     "copy-webpack-plugin": "4.3.1",
     "cross-env": "5.1.3",
     "css-loader": "^0.28.8",
@@ -96,22 +128,5 @@
     "webpack": "3.5.5",
     "webpack-dev-server": "2.7.1"
   },
-  "dependencies": {
-    "aurelia-bootstrapper": "^2.2.0",
-    "aurelia-fetch-client": "1.3.1",
-    "aurelia-polyfills": "latest",
-    "bluebird": "^3.5.1",
-    "bootstrap": "4.0.0",
-    "firebase": "4.10.1",
-    "font-awesome": "4.7.0",
-    "highlight.js": "^9.12.0",
-    "isomorphic-fetch": "2.2.1",
-    "jquery": "3.2.1",
-    "markdown-it": "8.4.1",
-    "markdown-it-deflist": "2.0.3",
-    "markdown-it-emoji": "1.4.0",
-    "reading-time": "^1.1.0",
-    "tether": "1.4.3",
-    "twemoji": "2.5.0"
-  }
+  "main": "dist/app.bundle.js"
 }
