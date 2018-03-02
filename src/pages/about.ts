@@ -1,6 +1,4 @@
 import { autoinject } from "aurelia-framework";
-// import * as ApplicationConfig from '../config/application.config.json';
-// import * as SocialConfig from '../config/social.config.json';
 let ApplicationConfig = require("../config/application.config.json");
 let SocialConfig = require("../config/social.config.json");
 

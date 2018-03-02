@@ -1,6 +1,5 @@
 import * as webpackConfig from "../../webpack.config";
 import * as webpack from "webpack";
-// import * as project from "../aurelia.json";
 let project = require("../aurelia.json");
 import { CLIOptions, Configuration } from "aurelia-cli";
 import * as gulp from "gulp";

@@ -4,7 +4,6 @@ import { DataService } from "../services/dataService";
 import { Markdown } from "../services/markdown";
 import * as _ from "lodash";
 
-// import * as AuthorConfig from '../config/author.config.json';
 let AuthorConfig = require("../config/author.config.json");
 import { ContentInterface, AuthorInterface, ISocial } from "../common/interfaces";
 

@@ -1,10 +1,18 @@
 <template>
-  <section class="posts postindex wrapper">
+  <section class="posts postindex">
     <article repeat.for="post of posts" class="post ${$first ? 'first' : ''}">
       <header>
-        <h1><a href="/post/${post.url}">${post.title}</a></h1>
+        <h1>
+          <a href="/post/${post.url}">${post.title}</a>
+        </h1>
         <span>
-          Posted by <span class="postauthor"><a href="/about"><img class="smallprofile" alt="${post.postedBy}" src="/images/avatar.jpg">${post.postedBy}</a></span> on <i class="fa fa-clock-o"></i><time datetime="${post.posted}">${post.posted | dateFormat: 'MMMM Do, YYYY' }</time>.
+          Posted by
+          <span class="postauthor">
+            <a href="/about">
+              <img class="smallprofile" alt="${post.postedBy}" src="/images/avatar.jpg">${post.postedBy}</a>
+          </span> on
+          <i class="fa fa-clock-o"></i>
+          <time datetime="${post.posted}">${post.posted | dateFormat: 'MMMM Do, YYYY' }</time>.
           <!--<template repeat.for="cat of post.categories"><a href="/category/${cat}" class="categoryLink">${cat}</a> </template>-->
         </span>
         <p>${post.description}</p>

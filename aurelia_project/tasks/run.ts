@@ -2,7 +2,6 @@ import { config } from "./build";
 import configureEnvironment from "./environment";
 import * as webpack from "webpack";
 import * as Server from "webpack-dev-server";
-// import * as project from "../aurelia.json";
 let project = require("../aurelia.json");
 import { CLIOptions, reportWebpackReadiness } from "aurelia-cli";
 import * as gulp from "gulp";

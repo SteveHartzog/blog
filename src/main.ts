@@ -8,7 +8,6 @@ import * as Bluebird from "bluebird";
 import * as firebase from "firebase";
 
 // Import Firebase config
-// import * as FirebaseConfig from './config/firebase.config.json';
 let FirebaseConfig = require("./config/firebase.config.json");
 
 // Store Firebase instance on global window

@@ -2,7 +2,6 @@ import * as jest from "jest-cli";
 import * as gutil from "gulp-util";
 import through2 from "through2";
 import * as path from "path";
-// import packageJson from "../../package.json";
 let packageJson = require("../../package.json");
 
 import { CLIOptions } from "aurelia-cli";

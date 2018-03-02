@@ -1,14 +1,23 @@
 <template>
   <require from="./resources/elements/nav-bar.html"></require>
   <require from="./resources/elements/categories/categories"></require>
+  <div id="cover" show.bind="router.currentInstruction.config.name === 'home'" class="cover post indexfeature featured" id="cover">
+    <div class="background" style="background-image: url('./images/${config.coverImage}');">
+      <span class="background-title">${contentAuthor}</span>
+      <span class="background-quote">${siteBlurb}</span>
+    </div>
+    <i onclick.call="smoothScrollTo('pageStart', 750)" class="fa fa-chevron-down movedown"></i>
+  </div>
+  <nav-bar router.bind="router" site-title.bind="siteTitle" content-title.bind="contentTitle" author.bind="contentAuthor" is-cover.bind="isCover"></nav-bar>
 
-  <nav-bar router.bind="router" site-title.bind="config.siteTitle" content-title.bind="contentTitle" author.bind="author.name" scroll.bind="smoothScrollTo" cover.bind="config.coverImage" quote.bind="config.siteBlurb"></nav-bar>
-  
+  <section id="content-left"></section>
   <router-view id="pageStart"></router-view>
-  
-  <footer class="wrapper">
+  <section id="content-right"></section>
+
+  <footer>
     <div class="copyright">
-      Copyright © <a href="${bConf.url}">${config.siteName}</a>. 2017 • All rights reserved.
+      Copyright ©
+      <a href="${bConf.url}">${config.siteName}</a>. ${getYear()} • All rights reserved.
     </div>
   </footer>
 </template>
