@@ -149,7 +149,10 @@ module.exports = ({ production, server, extractCss, coverage } = {}) => ({
     ),
     new CopyWebpackPlugin([
       { from: "src/images/favicon.ico", to: "favicon.ico" },
-      { from: "src/images", to: "./images" }
+      { from: "src/images", to: "./images" },
+      { from: "404.html", to: "./" },
+      { from: ".nojekyll", to: "./" },
+      { from: "CNAME", to: "./" }
     ]),
     ...when(
       production,
