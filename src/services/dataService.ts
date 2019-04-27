@@ -9,8 +9,8 @@ import * as firebase from 'firebase';
 // Required by TS 2.6.2
 let FirebaseConfig = require('../config/firebase.config.json');
 
-import {CategoryInterface, ContentType, ContentInterface, FirebaseConfigInterface} from '../common/interfaces';
-import {snapshotToArray} from '../common/functions';
+import { CategoryInterface, ContentType, ContentInterface, FirebaseConfigInterface } from '../common/interfaces';
+import { snapshotToArray } from '../common/functions';
 
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
@@ -22,11 +22,9 @@ export class DataService {
   posts: {}[];
   categories: string[];
 
-  constructor (private http: HttpClient) {
-    this.http.configure(config => {
-      config
-        .useStandardConfiguration()
-        .withBaseUrl(this.config.databaseURL);
+  constructor(private http: HttpClient) {
+    this.http.configure((config) => {
+      config.useStandardConfiguration().withBaseUrl(this.config.databaseURL);
     });
   }
 
@@ -34,60 +32,78 @@ export class DataService {
     let data: ContentInterface[] = [];
 
     if (onlyPublished) {
-      await firebase.database().ref()
+      await firebase
+        .database()
+        .ref()
         .child('content')
         .orderByChild('isPublished')
         .equalTo(true)
-        .once('value', snapshot => {
+        .once('value', (snapshot) => {
           data = snapshotToArray(snapshot, 'post');
         });
     } else {
-      await firebase.database().ref()
+      await firebase
+        .database()
+        .ref()
         .child('content')
         .orderByChild('type')
         .equalTo(type)
-        .once('value', snapshot => data = snapshotToArray(snapshot));
+        .once('value', (snapshot) => (data = snapshotToArray(snapshot)));
     }
 
-    return data;
+    return data.sort((a, b) => {
+      if (a.created_at < b.created_at) {
+        return -1;
+      }
+      if (a.created_at > b.created_at) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   async getCategories(): Promise<CategoryInterface[]> {
     let categories: CategoryInterface[];
 
-    await firebase.database().ref()
+    await firebase
+      .database()
+      .ref()
       .child('categories')
       .orderByChild('name')
-      .once('value', snapshot => categories = snapshotToArray(snapshot));
+      .once('value', (snapshot) => (categories = snapshotToArray(snapshot)));
 
-      return categories;
+    return categories;
   }
 
   async getDefaultCategory(): Promise<CategoryInterface> {
     let defaultCategory: CategoryInterface = null;
 
-    await firebase.database().ref()
+    await firebase
+      .database()
+      .ref()
       .child('categories')
       .orderByChild('isDefault')
       .equalTo(true)
-      .once('value', snapshot => defaultCategory = snapshot.val());
+      .once('value', (snapshot) => (defaultCategory = snapshot.val()));
 
-      return defaultCategory;
+    return defaultCategory;
   }
 
   async getComments(contentId: string) {
     let comments = [];
 
-    await firebase.database().ref()
+    await firebase
+      .database()
+      .ref()
       .child('comments')
       .orderByChild('contentId')
       .equalTo(contentId)
-      .once('value', snapshot => comments = snapshotToArray(snapshot));
+      .once('value', (snapshot) => (comments = snapshotToArray(snapshot)));
 
     return comments;
   }
 
-  async getData(data: string, refresh:boolean = false) {
+  async getData(data: string, refresh: boolean = false) {
     let items;
     try {
       const response = await this.http.fetch(data + '.json');
@@ -98,8 +114,8 @@ export class DataService {
     }
     return items;
   }
-  
-  async loadPosts(refresh:boolean = false): Promise<any[]> {
+
+  async loadPosts(refresh: boolean = false): Promise<any[]> {
     if (this.posts === undefined || refresh === true) {
       this.posts = _.sortBy(await this.getData('posts'), (post) => {
         return moment(post.posted);
@@ -108,11 +124,11 @@ export class DataService {
     return this.posts;
   }
 
-  async loadCategories(refresh:boolean = false) {
+  async loadCategories(refresh: boolean = false) {
     if (this.categories === undefined || refresh === true) {
-        this.categories = await this.getData('categories');
+      this.categories = await this.getData('categories');
     }
-    return this.categories;  
+    return this.categories;
   }
 
   async getPostsByCategory(category: string, refresh: boolean = false) {
@@ -120,7 +136,7 @@ export class DataService {
       this.posts = await this.getData('posts');
     }
     return _.filter(this.posts, (post) => {
-      for(let cat of post['categories']) {
+      for (let cat of post['categories']) {
         if (cat.toLowerCase() === category.toLowerCase()) {
           return true;
         }
@@ -133,6 +149,6 @@ export class DataService {
     if (this.posts === undefined || refresh === true) {
       this.posts = await this.getData('posts');
     }
-    return this.posts[_.findIndex(this.posts, { 'url': url })];
+    return this.posts[_.findIndex(this.posts, { url: url })];
   }
 }
